@@ -1,11 +1,6 @@
 ---
 title: GitCommand
 date: 2019-07-22 16:41:45
-categories:
--VersionControl
-tags:
--git
--VersionControl
 ---
 
 # git分布式版本控制工具
