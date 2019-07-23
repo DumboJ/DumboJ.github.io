@@ -1,6 +1,6 @@
 # 头部菜单，title: link
 menu:
-  首页: http://dumboj.top
+  whoami: whoami
   分类: /categories
   标签云: /tags
   Github: https://github.com/DumboJ
