@@ -1,6 +1,11 @@
 ---
 title: GitCommand
 date: 2019-07-22 16:41:45
+tagcloud:
+ -git
+ -VersionControl
+categories:
+ -git
 ---
 
 # git分布式版本控制工具
@@ -119,7 +124,15 @@ date: 2019-07-22 16:41:45
 
    要克隆一个仓库，确认仓库地址，然后使用`git clone`命令克隆。
 
-   例:`$ git clone git@github.com:DumboJ/LxfGit`
+   ```
+   不指定分支：
+   git + clone + clone_address
+   例：git clone git@github.com:Dumboj/DmboJ.github.io.git
+   
+   指定分支：
+   git + clone + -b + branch_name + clone_address
+   例：git clone -b hexo git@github.com:Dumboj/DmboJ.github.io.git
+   ```
 
    Git支持多种协议，包括`https`，但通过`ssh`支持的原生`git`协议速度最快。
 
