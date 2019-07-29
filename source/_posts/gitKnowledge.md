@@ -1,7 +1,7 @@
 ---
 title: GitCommand
 date: 2019-07-22 16:41:45
-tagcloud:
+tags: 
  -git
  -VersionControl
 categories:

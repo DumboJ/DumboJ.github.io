@@ -2,6 +2,12 @@
 title: node升级
 date: 2019-07-25 10:18:55
 tags:
+ -npm
+ -n
+ -nodejs
+categories:
+ -nodejs
+cover: static/bgpic/screen.jpg
 ---
 
 ###### npm 升级
