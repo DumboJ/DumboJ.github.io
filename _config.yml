@@ -81,7 +81,6 @@ feed:
   type: atom
   path: atom.xml
   limit: 20
-
 # Generate categories from directory-tree
 # Dependencies: https://github.com/xu-song/hexo-auto-category
 # depth: the depth of directory-tree you want to generate, should > 0
@@ -89,6 +88,12 @@ auto_category:
  enable: true
  depth:
 theme: diaspora
+#本地搜索功能
+search: 
+    path: search.xml
+    field: post
+    format: html
+    limit: 10000
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:

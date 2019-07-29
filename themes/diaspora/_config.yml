@@ -51,6 +51,9 @@ gitalk:
 # 网站关键字
 keywords: DumboJ
 
+#本地搜索功能
+local_search: 
+    enable: true
 # 要使用google_analytics进行统计的话，这里需要配置ID
 google_analytics: 
 
