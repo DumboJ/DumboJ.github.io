@@ -6,6 +6,7 @@ tags:
  -VersionControl
 categories:
  -git
+cover: /static/bgpic/cata.jpg
 ---
 
 # git分布式版本控制工具
