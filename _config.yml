@@ -98,6 +98,7 @@ search:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo:
-    coding: git@git.dev.tencent.com:DumboJ/DumboJ.git,master
-    github: git@github.com:DumboJ/DumboJ.github.io.git,master
+  repo: git@github.com:DumboJ/DumboJ.github.io.git
+  branch: master
+    #coding: git@git.dev.tencent.com:DumboJ/DumboJ.git,master
+    #,master
