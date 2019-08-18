@@ -104,7 +104,17 @@ git symbolic-ref HEAD		--如果HEAD指向的是一个引用
 
 ​	`$ git reset --hard commit_ID($ git reset --hard HEAD^/HEAD^^/HEAD~?`--？为数字)
 
-###### 方式2：git revert <!--撤销更改并分享到远程分支，作用于远程分支-->
+###### 方式2：git revert  HEAD<!--撤销更改并分享到远程分支，作用于远程分支-->
+
+​	通过下图的图形化可以看到，revert方式并不是像reset回退到某个提交记录，而是在撤销的提交记录后面添加一个新提交，这个提交引入了更改，这个更改刚好是用来撤销目标提交的。也就是添加的新纪录C2'的状态与C1是相同的。
+
+<u>revert前远程分支状态</u>
+
+![](<https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/revert1.png>)
+
+​	<u>revert后远程分支状态</u>
+
+​							![](<https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/revert2.png>)
 
 ##### 5.删除文件
 
