@@ -156,13 +156,14 @@ git symbolic-ref HEAD		--如果HEAD指向的是一个引用
 
 ​	用途：强制修改分支位置
 
-​	![](static/sourcepic/git HEAD.png)
+​	![](<https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/git%20HEAD.png>)
 
 ```
-git branch -f master C1       强制将master分支指向C1
+方式1.git branch -f master C1       强制将master分支指向C1
+方式2.git branch -f master HEAD~3
 ```
 
-![](static/sourcepic/git强制移动分支.png)
+![](<https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/git%E5%BC%BA%E5%88%B6%E7%A7%BB%E5%8A%A8%E5%88%86%E6%94%AF.png>)
 
 </u>
 
