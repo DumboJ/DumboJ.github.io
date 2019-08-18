@@ -39,6 +39,15 @@ cover: /static/bgpic/cata.jpg
 
 ​		如果`git status`告诉你有文件被修改过，用`git diff`可以查看修改内容。
 
+##### 查看HEAD指向
+
+```
+cat .git/HEAD
+git symbolic-ref HEAD		--如果HEAD指向的是一个引用
+```
+
+
+
 ### 二 版本控制及文件操作
 
 ##### 1.版本回退
