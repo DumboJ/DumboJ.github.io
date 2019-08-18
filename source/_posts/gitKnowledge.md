@@ -11,6 +11,8 @@ cover: /static/bgpic/cata.jpg
 
 # git分布式版本控制工具
 
+[有趣的学习git](https://learngitbranching.js.org/)
+
 ##### 创建版本库: 
 
 ​	`$  mk dir folder_name`	  	  <!--创建版本库文件夹-->
@@ -149,6 +151,20 @@ git symbolic-ref HEAD		--如果HEAD指向的是一个引用
 ### 四  分支管理
 
 每次提交,git 都串成一条时间线.git 的分支指向提交,HEAD指向当前分支.
+
+<u>分离HEAD概念：HEAD不指向分支而是某个具体的提交
+
+​	用途：强制修改分支位置
+
+​	![](static/sourcepic/git HEAD.png)
+
+```
+git branch -f master C1       强制将master分支指向C1
+```
+
+![](static/sourcepic/git强制移动分支.png)
+
+</u>
 
 Git鼓励大量使用分支：查看分支：`git branch`		创建分支：`git branch <name>`	
 
