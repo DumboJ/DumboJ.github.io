@@ -132,9 +132,31 @@ git symbolic-ref HEAD		--如果HEAD指向的是一个引用
 
 ##### 6.整理提交记录
 
-###### 	1.git cherry-pick 提交号  <!--将一些提交复制到HEAD所在位置下面-->
+###### 	1.git cherry-pick 提交号  <!--将一些提交复制到HEAD所在位置下面-->ps.使用于知道提交的哈希值时
 
-###### 	2.
+​		例如，现有两个分支，HEAD指向当前分支master
+
+​		![](<https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/cherrypick1.png>)
+
+​		我们只需要C2、C4两次提交的内容，命令：		
+
+```
+ 		git	cherry-pick C2 C4
+```
+
+​		整理后：
+
+​				![](<https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/cherrypick2.png>)
+
+###### 	2.交互式的rebase(git rebase -interactive ) +某个已知提交点      ---ps.使用于不清楚具体提交的哈希值时
+
+​	从一系列的提交记录中找到想要的记录，选择HEAD前的某个已知提交，该提交最好是HEAD和提取分支的共
+
+同父节点，并<u>通过切换pick状态来控制提交</u>;交互式的rebase通过<u>鼠标来修改提交记录的顺序</u>。
+
+##### 7.本地栈式提交
+
+​	
 
 ### 三	远程仓库
 
