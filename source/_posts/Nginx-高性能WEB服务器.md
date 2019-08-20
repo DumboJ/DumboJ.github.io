@@ -102,9 +102,19 @@ tar -zxvf nginx-1.16.1.tar.gz
   ./nginx					--再次启动服务
   ```
 
-  
+  ##### Nginx信号控制
 
+  [官方地址]: https://www.nginx.com/resources/wiki/start/topics/tutorials/commandline/
 
+| 信号参数  | 说明                                                         |
+| --------- | ------------------------------------------------------------ |
+| TERM, INT | Quick shutdown                                               |
+| QUIT      | Graceful shutdown                                            |
+| KILL      | Halts a stubborn process                                     |
+| HUP       | Configuration reload  --重新加载重读配置文件、                                                                                                                              Start the new worker processes with a new configuration、                                                         Gracefully shutdown the old worker processes |
+| USR1      | Reopen the log files--日志切割：kill -USER1 pid  ，（重命名日志文件，再新建原名日志） |
+| USR2      | Upgrade Executable on the fly       平滑的升级，当旧进程请求完毕则关闭 |
+| WINCH     | Gracefully shutdown the worker processes                     |
 
 
 
