@@ -2,7 +2,7 @@
 title: java容器
 date: 2019-08-09 00:59:11
 tags:
-cover: static/bgPic/sum.jpg
+cover: static/bgPic/20120619214033_ndRJQ.jpeg
 ---
 
 ### ArrayList
