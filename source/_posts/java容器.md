@@ -2,7 +2,7 @@
 title: java容器
 date: 2019-08-09 00:59:11
 tags:
-cover: static/bgPic/20120619214033_ndRJQ.jpeg
+cover: static/bgPic/javaCollection.jpg
 ---
 
 ### ArrayList
@@ -160,4 +160,97 @@ private void writeObject(java.io.ObjectOutputStream s)
     }
 }
 ```
+
+### 2.Vector
+
+它的实现与ArrayList类似，但是它使用synchronized进行同步。
+
+```java
+public synchronized boolean add(E e) {
+    modCount++;
+    ensureCapacityHelper(elementCount + 1);
+    elementData[elementCount++] = e;
+    return true;
+}
+
+public synchronized E get(int index) {
+    if (index >= elementCount)
+        throw new ArrayIndexOutOfBoundsException(index);
+
+    return elementData(index);
+}
+```
+
+#### 与ArrayList比较
+
+- Vector是同步的，因此开销比ArrayList更大，访问速度更慢。最好使用ArrayList而不是Vector，因为同步操作完全可以由程序员自己来控制。
+- Vector每次扩容请求其大小的两倍（也可以通过构造函数来设置），ArrayList是1.5倍
+
+##### 替代方案
+
+1. ##### 使用Collections.synchroniedList();得到一个线程安全的ArrayList
+
+   ```java
+   List<String> list = new ArrayList<>();
+   List<String> synList = Collections.synchronizedList(list);
+   ```
+
+2. ##### 并发包下的CopyOnWriteArrayList类
+
+   ```java
+   List<String> list = new CopyOnWriteArrayList<>();
+   ```
+
+   ###### 读写分离：
+
+   写操作在复制的数组上进行，读操作还是在原始数组中进行，读写分离，互不影响。
+
+   写操作需要加锁，防止并发写入时导致写入数据丢失。
+
+   写操作结束后，需要把原始数组指向新的复制数组。
+
+   ```java
+   public boolean add(E e) {
+       final ReentrantLock lock = this.lock;
+       lock.lock();
+       try {
+           Object[] elements = getArray();
+           int len = elements.length;
+           Object[] newElements = Arrays.copyOf(elements, len + 1);
+           newElements[len] = e;
+           setArray(newElements);
+           return true;
+       } finally {
+           lock.unlock();
+       }
+   }
+   
+   final void setArray(Object[] a) {
+       array = a;
+   }
+   ```
+
+   
+
+   ```java
+   @SuppressWarnings("unchecked")
+   private E get(Object[] a, int index) {
+       return (E) a[index];
+   }
+   ```
+
+   
+
+   ###### 适用场景：
+
+   CopyOnWriteArrayList在写操作的同时允许读操作，大大提高了读操作的性能，因此很适合读多写少的应用场景。
+
+   ###### 缺陷：
+
+   - 内存占用：写操作时需要复制一个新的数组，使得内存占用为原来的两倍。
+   - 数据不一致。读操作时不能读取实时性的数据，因为部分写操作还没同步到读数组中。
+
+   所以CopyOnWriteArrayList不适合内存敏感以及实时性要求很高的场景。
+
+### 3.LinkedList
 
