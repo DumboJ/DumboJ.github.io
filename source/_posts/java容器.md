@@ -254,3 +254,25 @@ public synchronized E get(int index) {
 
 ### 3.LinkedList
 
+##### 1.概览：基于双向链表实现，使用Node存储链表节点信息。
+
+```
+private static class Node<E> {
+    E item;
+    Node<E> next;
+    Node<E> prev;
+}
+```
+
+每个链表存储了first和last指针。
+
+```
+transient Node<E> first;
+transient Node<E> last;
+```
+
+##### 2.与ArrayList比较
+
+- ArrayList基于动态数组实现，LinkedList基于双向链表实现
+- ArrayList支持随机访问，LinkedList不支持。
+- LinkedList在任意位置添加删除元素更快。
