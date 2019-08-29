@@ -289,6 +289,8 @@ transient Node<E> last;
 
 ##### 1.存储结构：内部包含一个Entry[]类型的数组table
 
+java1.7中使用
+
 ```java
 transient Entry[] table;
 ```
@@ -299,3 +301,108 @@ java1.8中使用
 transient Node<K,V>[] table;
 ```
 
+Entry和Node存储着键值对，从源码中next可以看出Entry或Node都是一个链表。数组中的每个位置都都被当成一个桶，一个桶存放一个链表。
+
+HashMap使用拉链法来解决冲突，同一个链表中存放哈希值和散列桶取模运算结果相同的键值对对象（Entry或Node）
+
+##### 2.拉链法的工作原理：
+
+```
+HashMap<String, String> map = new HashMap<>();
+map.put("K1", "V1");
+map.put("K2", "V2");
+map.put("K3", "V3");
+```
+
+- 新建一个HashMap，默认的大小为16
+
+- 计算k1的hashCode为115，对16取模=3；k2,k3的hashCode为118，对16取模为6，
+
+  链表的插入方式是以头插法方式进行的，对应<k3,v3>应在链表头部，即<k2，v2>前
+
+###### 查找分为两步进行
+
+1. 根据需要查找的key值确定桶所在位置
+2. 在链表上顺序查找，时间幅度和链表长度成正比
+
+##### 3.put操作
+
+HashMap允许键为null的键值对。因无法确定null的哈希值，采用的是强制指定桶下标来存放。HashMap使用第0个桶存放键为null的键值对。
+
+```java
+public V put(K key, V value) {
+    if (table == EMPTY_TABLE) {
+        inflateTable(threshold);
+    }
+    // 键为 null 单独处理
+    if (key == null)
+        return putForNullKey(value);
+    int hash = hash(key);
+    // 确定桶下标
+    int i = indexFor(hash, table.length);
+    // 先找出是否已经存在键为 key 的键值对，如果存在的话就更新这个键值对的值为 value
+    for (Entry<K,V> e = table[i]; e != null; e = e.next) {
+        Object k;
+        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+            V oldValue = e.value;
+            e.value = value;
+            e.recordAccess(this);
+            return oldValue;
+        }
+    }
+
+    modCount++;
+    // 插入新键值对
+    addEntry(hash, key, value, i);
+    return null;
+}
+//键为null的键值对put（）
+private V putForNullKey(V value) {
+    for (Entry<K,V> e = table[0]; e != null; e = e.next) {
+        if (e.key == null) {
+            V oldValue = e.value;
+            e.value = value;
+            e.recordAccess(this);
+            return oldValue;
+        }
+    }
+    modCount++;
+    addEntry(0, null, value, 0);
+    return null;
+}
+```
+
+##### 4.扩容
+
+设HashMap的长度为M，需要存储的键值对数量为N，如果哈希函数满足均匀性要求，则每条链表的长度为N/M。
+
+因此，为了让查找的成本降低，应该让table也就是M尽可能大。HashMap采用动态扩容，根据N的数量来调整M的值，保证空间效率和时间效率。
+
+扩容操作同样需要将oldTable的键值对重新插入newTable中，这一步很费时。
+
+##### 5.重新计算桶下标
+
+扩容时需要把键值对重新放在对应的桶上。HashMap使用了一个特殊的机制，降低重新计算桶下标的操作。
+
+假设原数组长度为16，扩容后的new capacity为32；
+
+```
+capacity     : 00010000
+new capacity : 00100000
+```
+
+对于一个key：
+
+- 它的哈希值如果在第5位上为0，则取模和之前得到的哈希值一致
+- 如果为1，则得到的结果为原来的结果+16
+
+##### 6.链表转红黑树
+
+JDK1.8后，当桶存储的链表的长度>=8时，会将链表转换为红黑树。
+
+##### 7.HashMap和HashTable的比较
+
+- HashTable使用synchronized进行同步，即HashTable是线程安全的
+- HashMap允许键为null
+- HashMap使用fail-fast迭代器
+- HashMap不能保证随着时间的推移Map中的元素次序是不变的（扩容重新计算哈希值）
