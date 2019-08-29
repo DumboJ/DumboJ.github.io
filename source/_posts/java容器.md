@@ -2,7 +2,15 @@
 title: java容器
 date: 2019-08-09 00:59:11
 tags:
-cover: static/bgPic/javaCollection.jpg
+ -容器
+ -list
+ -set
+ -map
+categories:
+ -list
+ -set
+ -map
+cover: static/bgpic/javaCollection.jpg
 ---
 
 ### ArrayList
@@ -276,3 +284,18 @@ transient Node<E> last;
 - ArrayList基于动态数组实现，LinkedList基于双向链表实现
 - ArrayList支持随机访问，LinkedList不支持。
 - LinkedList在任意位置添加删除元素更快。
+
+### HashMap
+
+##### 1.存储结构：内部包含一个Entry[]类型的数组table
+
+```java
+transient Entry[] table;
+```
+
+java1.8中使用
+
+```
+transient Node<K,V>[] table;
+```
+
