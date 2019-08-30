@@ -406,3 +406,60 @@ JDK1.8后，当桶存储的链表的长度>=8时，会将链表转换为红黑�
 - HashMap允许键为null
 - HashMap使用fail-fast迭代器
 - HashMap不能保证随着时间的推移Map中的元素次序是不变的（扩容重新计算哈希值）
+
+### 4.ConcurrentHashMap
+
+`static final class HashEntry<K,V> {
+    final int hash;
+    final K key;
+    volatile V value;
+    volatile HashEntry<K,V> next;
+}`
+
+##### ConcurrentHashMap和HashMap实现上类似。区别在于ConcurrentHashMap引入了分段锁（Segement）。
+
+每个Segment维护着几个HashEntry，多个线程可以同时访问不同分段锁上的桶，并发度更高（并发量即Segment的个数）
+
+##### Segment继承自ReentrantLock
+
+`static final class Segment<K,V> extends ReentrantLock implements Serializable {`
+
+`private static final long serialVersionUID = 2249069246763182397L;`
+
+`static final int MAX_SCAN_RETRIES =`
+    `Runtime.getRuntime().availableProcessors() > 1 ? 64 : 1;`
+
+​	`transient volatile HashEntry<K,V>[] table;`
+
+​	`transient int count;`
+
+​	`transient int modCount;`
+
+​	`transient int threshold;`
+
+​	`final float loadFactor;`
+
+`}`
+
+##### Segment定义
+
+`final Segment<K,V>[] segments;`
+
+##### 默认Segment的并发级别为16
+
+`static final int DEFAULT_CONCURRENCY_LEVEL = 16;`
+
+##### JDK 1.8 的改动
+
+JDK1.7使用Segment分段锁机制来实现并发更新操作，核心类即Segment,继承自重入锁ReentrantLock,并发度等于Segment个数。
+
+JDK1.8中使用CAS操作来支持更高的并发度，在CAS操作失败时使用内置锁synchronized，同样在链表过长时会转换为红黑树。
+
+### LinkedHashMap
+
+##### 存储结构：
+
+继承自HashMap,因此具有和HashMap一样的快速查找特性。
+
+内部维护一个双向链表，用来维护插入顺序或者LRU顺序。
+
