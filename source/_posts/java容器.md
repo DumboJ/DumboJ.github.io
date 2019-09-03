@@ -463,3 +463,34 @@ JDK1.8中使用CAS操作来支持更高的并发度，在CAS操作失败时使�
 
 内部维护一个双向链表，用来维护插入顺序或者LRU顺序。
 
+```java
+/**
+ * The head (eldest) of the doubly linked list.
+ */
+transient LinkedHashMap.Entry<K,V> head;
+
+/**
+ * The tail (youngest) of the doubly linked list.
+ */
+transient LinkedHashMap.Entry<K,V> tail;
+```
+
+accessOrder决定了顺序，默认为false,此时维护的是插入顺序
+
+```java
+final boolean accessOrder;
+```
+
+LinkedHashMap最重要的是以下两个维护顺序的函数，会在put、get等方法中调用。
+
+```java
+void afterNodeAccess(Node<K,V> p) { }
+void afterNodeInsertion(boolean evict) { }
+```
+
+##### afterNodeAccess()
+
+当一个节点被访问时，如果accessOrder为true,则会把这个节点移到链表尾部。即指定了LRU顺序之后，在每次访问一个节点时，会将这个节点移到链表尾部，保证链表尾部是最近访问的节点，链表首部是最久没访问的节点。
+
+##### afterNodeInsertion()
+
