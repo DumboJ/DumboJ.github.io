@@ -461,7 +461,7 @@ JDK1.8中使用CAS操作来支持更高的并发度，在CAS操作失败时使�
 
 继承自HashMap,因此具有和HashMap一样的快速查找特性。
 
-内部维护一个双向链表，用来维护插入顺序或者LRU顺序。
+###### 内部维护一个双向链表，用来维护插入顺序或者LRU顺序。
 
 ```java
 /**
@@ -493,4 +493,54 @@ void afterNodeInsertion(boolean evict) { }
 当一个节点被访问时，如果accessOrder为true,则会把这个节点移到链表尾部。即指定了LRU顺序之后，在每次访问一个节点时，会将这个节点移到链表尾部，保证链表尾部是最近访问的节点，链表首部是最久没访问的节点。
 
 ##### afterNodeInsertion()
+
+put操作等操作之后执行，当removeOldestEntry（）为true时，会移除链表首部节点first
+
+removeOldestEntry默认为false,如果要让它为true,需继承自LinkedHashMap并覆盖这个方法的实现。这是实现LRU缓存的核心，移除最近最久未使用的节点，保证缓存空间足够，并且缓存的数据都是热点数据。
+
+##### 实现LRU缓存的思路
+
+a.继承LinkedHashMap
+
+b.使用LinkedHashMap构造函数将accessOrder设置为true,开启LRU顺序。
+
+c.覆盖removeOldestEntry（）实现，在节点多余MAX_ENTRY时，方法返回true，删除最近最久未使用的节点。
+
+```java
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private static final int MAX_ENTRIES = 3;
+
+    protected boolean removeEldestEntry(Map.Entry eldest) {
+        return size() > MAX_ENTRIES;
+    }
+
+    LRUCache() {
+        super(MAX_ENTRIES, 0.75f, true);
+    }
+}
+```
+
+```java
+public static void main(String[] args) {
+    LRUCache<Integer, String> cache = new LRUCache<>();
+    cache.put(1, "a");
+    cache.put(2, "b");
+    cache.put(3, "c");
+    cache.get(1);
+    cache.put(4, "d");
+    System.out.println(cache.keySet());
+}
+```
+
+```java
+[3,1,4]
+```
+
+### WeakHashMap
+
+##### 存储结构
+
+WeakHashMap的Entry继承自WeakReference,被weakReference关联的对象在下一次垃圾回收时会被回收。
+
+WeakHashMap主要用来实现缓存，通过使用WeakHashMap来引用缓存对象，由JVM对这部分缓存进行回收。
 
