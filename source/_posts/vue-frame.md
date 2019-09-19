@@ -5,6 +5,7 @@ tags:
  -vue
 categories: 
  -vue官网文档小试
+cover: static/bgpic/keyBoard.jpg
 ---
 <!DOCTYPE html>
 <html>
@@ -96,3 +97,4 @@ categories:
 		});
 	</script>
 </html>
+
