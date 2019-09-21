@@ -5,7 +5,7 @@ tags:
  -maven仓库配置
 category:
  -aliyun maven仓库
-cover： 
+cover： static/bgpic/cata.jpg
 ---
 
 maven安装后，由于是自建项目，不能连到公司搭建私服和中央仓库（内网），所以新加maven使用阿里云仓库构建。
