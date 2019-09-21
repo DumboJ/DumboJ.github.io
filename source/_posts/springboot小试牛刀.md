@@ -6,7 +6,7 @@ tags:
  -微服务
 categories:
  -springboot
-cover: 
+cover: static/bgpic/timg.jpg
 ---
 
 maven:简化jar包的依赖关系
