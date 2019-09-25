@@ -1,12 +1,12 @@
 ---
 layout: package
-title: _post/小问题
+title: githubDNS问题
 date: 2019-09-21 10:27:15
 tags:
  -小疑问
 category:
  -githubDNS设置
-cover:
+cover: static/bgpic/sum.jpg
 ---
 
 github.com访问缓慢

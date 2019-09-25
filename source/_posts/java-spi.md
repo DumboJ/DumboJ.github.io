@@ -1,5 +1,5 @@
 ---
-title: 'java spi '
+title: java spi
 date: 2019-09-25 21:47:23
 tags: 
  -java基础
@@ -28,3 +28,83 @@ java SPI ：java Service Provider Interface
 4. 实现类必须有无参构造。（有带参构造时需显式声明）
 
 #### SPI简单案例
+
+​	[github](https://github.com/DumboJ/demos.git)-----spitest
+
+​	创建一个Maven工程
+
+​	目录结构：
+
+​	![](https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/javaspi.png)
+
+​	接口类：src/main/java/package_name/People
+
+```java
+/**SPI接口*/
+public interface People {
+	public String skin();//肤色
+}
+```
+
+具体实现类：
+
+Chinese
+
+```java
+/**SPI实现类一*/
+public class Chinese implements People {
+
+	public String skin() {
+		return "Chinese is yellow skin";//黄皮肤
+	}
+}
+```
+
+American
+
+```java
+/**SPI实现类二*/
+public class American implements People {
+
+	public String skin() {
+		
+		return "American is white skin";//白皮肤
+	}
+}
+
+```
+
+在src/main/resources下创建目录META-INF，并以接口全路径为名创建文件，文件内容为实现类的全路径名
+
+```java
+cn.dumboj.test.spi.American
+cn.dumboj.test.spi.Chinese
+```
+
+测试：
+
+```java
+/**SPI测试类*/
+public class TestSpi {
+	public static void main(String[] args) {
+		ServiceLoader<People> loader = ServiceLoader.load(People.class);
+		Iterator<People> skins = loader.iterator();		//实现类迭代器
+		while(skins.hasNext()){			//实现类遍历
+			System.out.println(skins.next().skin());
+		}
+	}
+}
+```
+
+测试结果：
+
+```java
+American is white skin
+Chinese is yellow skin
+```
+
+
+
+#### 总结
+
+从案例可以看出，在我们有更多具体实现需求时，只需要创建工程并基于对应接口实现，并在META-INF/services下做相应文件配置，将工程打包，就完成新服务的开发。
