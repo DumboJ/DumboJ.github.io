@@ -7,7 +7,7 @@ categories:
  -eclipse
  -IDEA
  -ignore 
-
+cover: static/bgpic/clor.jpg
 ---
 
 .class
