@@ -1,4 +1,12 @@
-**SpringBoot ( 四 ) ：thymeleaf 使用详解**
+---
+title: SpringBoot学习资料
+date: 2019-10-09 23:21:05
+tags: SpringBoot
+categories:
+ -SpringBoot
+ -学习资料
+cover: 
+---
 
 
 
@@ -12,18 +20,12 @@ SpringBoot ( 二 ) ：web 综合开发http://mp.weixin.qq.com/s/7jBT-vS7yD4daCzG
 
 SpringBoot (三) ：Spring Boot 中 Redis 的使用http://mp.weixin.qq.com/s/05sAOza-B7jlWrllj1lZ0Q
 
-SpringBoot ( 四 ) ：thymeleaf 使用详解http://mp.weixin.qq.com/s/d1nLZuzaZ9MDj2rV-52oIw
-
-SpringBoot ( 五) ：spring data jpa 的使用http://mp.weixin.qq.com/s/fAcOvQutfWosyh10wAjmSA
-
-SpringBoot (六) ：如何优雅的使用 mybatishttps://mp.weixin.qq.com/s/oDbcHyjyS4gc5wS85PbfLA
-
-SpringBoot ( 七 ) ：springboot + mybatis 多数据源最简解决方案http://mp.weixin.qq.com/s/TXGiYzqi2oCXuN4xuPy5Zw
-
-SpringBoot ( 八 ) ：RabbitMQ 详解http://mp.weixin.qq.com/s/5G3wHzNzpcUlBLwqOJ7BUQ
-
-SpringBoot ( 九 ) ：定时任务http://mp.weixin.qq.com/s/8JRuyh6FMZCobQVkk-isQA
-
+[SpringBoot ( 四 ) ：thymeleaf 使用详解]: http://mp.weixin.qq.com/s/d1nLZuzaZ9MDj2rV-52oIw
+[SpringBoot ( 五) ：spring data jpa 的使用]: http://mp.weixin.qq.com/s/fAcOvQutfWosyh10wAjmSA
+[SpringBoot (六) ：如何优雅的使用 mybatis]: https://mp.weixin.qq.com/s/oDbcHyjyS4gc5wS85PbfLA
+[SpringBoot ( 七 ) ：springboot + mybatis 多数据源最简解决方案]: http://mp.weixin.qq.com/s/TXGiYzqi2oCXuN4xuPy5Zw
+[SpringBoot ( 八 ) ：RabbitMQ 详解]: http://mp.weixin.qq.com/s/5G3wHzNzpcUlBLwqOJ7BUQ
+[SpringBoot ( 九 ) ：定时任务]: http://mp.weixin.qq.com/s/8JRuyh6FMZCobQVkk-isQA
 [SpringBoot ( 十 ) ：邮件服务	]: http://mp.weixin.qq.com/s/Rbb9CyMNjhzIHSo4gqQopQ
 [SpringBoot ( 十一 ) ：SpringBoot 中 mongodb 的使用]: http://mp.weixin.qq.com/s/T-u8ste30Ks4fezd0g3tOw
 [SpringBoot ( 十二 ) ：SpringBoot 如何测试打包部署——]: http://mp.weixin.qq.com/s/WJ6WIirmj4CCuwaHb8YTjg
