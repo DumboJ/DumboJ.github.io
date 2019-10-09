@@ -1,12 +1,4 @@
----
-title: SpringBoot学习资料
-date: 2019-10-09 23:21:05
-tags: SpringBoot
-categories:
- -SpringBoot
- -学习资料
-cover: 
----
+**SpringBoot ( 四 ) ：thymeleaf 使用详解**
 
 
 
@@ -14,15 +6,24 @@ cover:
 
 > ImportNew公众号的SpringBoot教程系列
 
-[SpringBoot (一) ：入门篇]: http://mp.weixin.qq.com/s/hAJmvrYfS6OehMYVgqpqkw
-[SpringBoot ( 二 ) ：web 综合开发]: http://mp.weixin.qq.com/s/7jBT-vS7yD4daCzGWFX1OQ
-[SpringBoot (三) ：Spring Boot 中 Redis 的使用]: http://mp.weixin.qq.com/s/05sAOza-B7jlWrllj1lZ0Q
-[SpringBoot ( 四 ) ：thymeleaf 使用详解]: http://mp.weixin.qq.com/s/d1nLZuzaZ9MDj2rV-52oIw
-[SpringBoot ( 五) ：spring data jpa 的使用]: http://mp.weixin.qq.com/s/fAcOvQutfWosyh10wAjmSA
-[SpringBoot (六) ：如何优雅的使用 mybatis]: https://mp.weixin.qq.com/s/oDbcHyjyS4gc5wS85PbfLA
-[SpringBoot ( 七 ) ：springboot + mybatis 多数据源最简解决方案]: http://mp.weixin.qq.com/s/TXGiYzqi2oCXuN4xuPy5Zw
-[SpringBoot ( 八 ) ：RabbitMQ 详解]: ttp://mp.weixin.qq.com/s/5G3wHzNzpcUlBLwqOJ7BUQ
-[SpringBoot ( 九 ) ：定时任务]: http://mp.weixin.qq.com/s/8JRuyh6FMZCobQVkk-isQA
+SpringBoot (一) ：入门篇			http://mp.weixin.qq.com/s/hAJmvrYfS6OehMYVgqpqkw
+
+SpringBoot ( 二 ) ：web 综合开发http://mp.weixin.qq.com/s/7jBT-vS7yD4daCzGWFX1OQ
+
+SpringBoot (三) ：Spring Boot 中 Redis 的使用http://mp.weixin.qq.com/s/05sAOza-B7jlWrllj1lZ0Q
+
+SpringBoot ( 四 ) ：thymeleaf 使用详解http://mp.weixin.qq.com/s/d1nLZuzaZ9MDj2rV-52oIw
+
+SpringBoot ( 五) ：spring data jpa 的使用http://mp.weixin.qq.com/s/fAcOvQutfWosyh10wAjmSA
+
+SpringBoot (六) ：如何优雅的使用 mybatishttps://mp.weixin.qq.com/s/oDbcHyjyS4gc5wS85PbfLA
+
+SpringBoot ( 七 ) ：springboot + mybatis 多数据源最简解决方案http://mp.weixin.qq.com/s/TXGiYzqi2oCXuN4xuPy5Zw
+
+SpringBoot ( 八 ) ：RabbitMQ 详解http://mp.weixin.qq.com/s/5G3wHzNzpcUlBLwqOJ7BUQ
+
+SpringBoot ( 九 ) ：定时任务http://mp.weixin.qq.com/s/8JRuyh6FMZCobQVkk-isQA
+
 [SpringBoot ( 十 ) ：邮件服务	]: http://mp.weixin.qq.com/s/Rbb9CyMNjhzIHSo4gqQopQ
 [SpringBoot ( 十一 ) ：SpringBoot 中 mongodb 的使用]: http://mp.weixin.qq.com/s/T-u8ste30Ks4fezd0g3tOw
 [SpringBoot ( 十二 ) ：SpringBoot 如何测试打包部署——]: http://mp.weixin.qq.com/s/WJ6WIirmj4CCuwaHb8YTjg
@@ -36,8 +37,7 @@ cover:
 > 版权声明：本文为CSDN博主「MinboHe」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
 > 原文链接：https://blog.csdn.net/hemin1003/article/details/82038244					
 
-[]: 
-[]: https://blog.csdn.net/hemin1003/article/details/53217308	"Spring Boot系列 - 1. 简介"
+[Spring Boot系列 - 1. 简介]: https://blog.csdn.net/hemin1003/article/details/53217308
 [Spring Boot系列 - 2. Spring Boot提供的特性]: https://blog.csdn.net/hemin1003/article/details/53217388
 [Spring Boot系列 - 3. SpringBoot项目学习汇总]: https://blog.csdn.net/hemin1003/article/details/53217489
 [Spring Boot系列 - 4. 读取配置文件（application.yml）中的属性值]: https://blog.csdn.net/hemin1003/article/details/53227523
