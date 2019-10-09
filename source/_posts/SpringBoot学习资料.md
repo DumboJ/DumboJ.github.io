@@ -36,7 +36,8 @@ cover:
 > 版权声明：本文为CSDN博主「MinboHe」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
 > 原文链接：https://blog.csdn.net/hemin1003/article/details/82038244					
 
-[Spring Boot系列 - 1. 简介]: https://blog.csdn.net/hemin1003/article/details/53217308
+[]: 
+[]: https://blog.csdn.net/hemin1003/article/details/53217308	"Spring Boot系列 - 1. 简介"
 [Spring Boot系列 - 2. Spring Boot提供的特性]: https://blog.csdn.net/hemin1003/article/details/53217388
 [Spring Boot系列 - 3. SpringBoot项目学习汇总]: https://blog.csdn.net/hemin1003/article/details/53217489
 [Spring Boot系列 - 4. 读取配置文件（application.yml）中的属性值]: https://blog.csdn.net/hemin1003/article/details/53227523
