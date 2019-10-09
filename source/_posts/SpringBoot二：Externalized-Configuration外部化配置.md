@@ -6,7 +6,7 @@ tags:
  -微服务
 categories:
  -springboot
-cover: 
+cover: static/bgpic/marcelo.jpg
 ---
 
 ### SpringBoot外部化配置
