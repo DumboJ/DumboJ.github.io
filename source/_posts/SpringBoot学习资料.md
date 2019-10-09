@@ -1,10 +1,20 @@
+---
+title: SpringBoot学习资料
+date: 2019-10-09 23:21:05
+tags: SpringBoot
+categories:
+ -SpringBoot
+ -学习资料
+cover: 
+---
+
 
 
 > 该文主要作为学习SpringBoot时看到的资料链接整理。文中内容都是原博主原创文章和官网链接。感谢前人种树，让自己学有所得。
 
 > ImportNew公众号的SpringBoot教程系列
 
-[SpringBoot (一) ：入门篇]: 	http://mp.weixin.qq.com/s/hAJmvrYfS6OehMYVgqpqkw
+[SpringBoot (一) ：入门篇]: http://mp.weixin.qq.com/s/hAJmvrYfS6OehMYVgqpqkw
 [SpringBoot ( 二 ) ：web 综合开发]: http://mp.weixin.qq.com/s/7jBT-vS7yD4daCzGWFX1OQ
 [SpringBoot (三) ：Spring Boot 中 Redis 的使用]: http://mp.weixin.qq.com/s/05sAOza-B7jlWrllj1lZ0Q
 [SpringBoot ( 四 ) ：thymeleaf 使用详解]: http://mp.weixin.qq.com/s/d1nLZuzaZ9MDj2rV-52oIw
@@ -18,7 +28,6 @@
 [SpringBoot ( 十二 ) ：SpringBoot 如何测试打包部署——]: http://mp.weixin.qq.com/s/WJ6WIirmj4CCuwaHb8YTjg
 [SpringBoot ( 十三 ) ：SpringBoot 小技巧]: http://mp.weixin.qq.com/s/-Amwc9BZBGATcpCOfpPD8g
 [SpringBoot (十四 ) ：SpringBoot 整合 shiro- 登录认证和权限管理]: http://mp.weixin.qq.com/s/344c8r-mjtabSo5QQ1MY-A
-
 
 
 
