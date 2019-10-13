@@ -5,7 +5,7 @@ tags: SpringBoot
 categories:
  -SpringBoot
  -学习资料
-cover: 
+cover: static/bgpic/proxy.jpg
 ---
 
 
