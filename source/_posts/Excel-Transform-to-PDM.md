@@ -29,7 +29,9 @@ A列字段code、B列字段name、
 
 ![](https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/Excel-revse-PDM.png)
 
-上代码：
+### VB脚本
+
+VB脚本中有注释，修改对应配置好的Excel文件路径
 
 ```vbscript
 Option Explicit
@@ -101,3 +103,24 @@ End sub
 
 ```
 
+### 脚本导入
+
+1. File→New Model→PhysicalDataModel→ok
+
+   在powerDesigner中新建物理模型，并选择相应的数据库类型
+
+   ![](https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/newPdmModel.jpg)
+
+2.导入脚本
+
+tools→Execute Commands→Edit/Run Script→Run
+
+导入对应的VB脚本，修改文件路径
+
+![]( https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/runVBScript.jpg )
+
+3.执行结果，查看表结构
+
+![]( https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/PDM-tables.jpg )
+
+4.操作表，建立表关联关系。
