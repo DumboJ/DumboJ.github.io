@@ -13,6 +13,22 @@ cover:
 
 使用VB脚本代码，将Excel配置的表结构导入到PowerDesigner中生成对应数据库的物理表模型。
 
+### EXCEL格式
+
+表格说明：A列红色字体的数据对应PDM中表名Code,B列红色字体对应PDM中表名name
+
+黄色框内代表每张表单的各个属性。
+
+A列字段code、B列字段name、
+
+> C列为空时，代表这一行为声明表名的行。这里有个小问题就是，C列当为表名所在的行时必须为空；C列为字段所在行时只要不为空都可以，不需要按照表头属性填写。
+
+其它可以看图理解。
+
+将表名、字段名、字段数据类型、是否主键、是否为空这些必填项按照设计的表结构填写。
+
+![](https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/Excel-revse-PDM.png)
+
 上代码：
 
 ```vbscript
@@ -85,4 +101,3 @@ End sub
 
 ```
 
-EXCEL格式再补充
