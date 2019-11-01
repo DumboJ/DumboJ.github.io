@@ -8,7 +8,7 @@ tags:
 categories:
  -PDM
  -VB Script
-cover: 
+cover: static/bgpic/river.jpg
 ---
 
 使用VB脚本代码，将Excel配置的表结构导入到PowerDesigner中生成对应数据库的物理表模型。
