@@ -6,7 +6,7 @@ tags:
 category:
  -fastjson
  -map
-cover: 
+cover: static/bgpic/20180823193303_E2A2L.jpeg
 ---
 
 import com.alibaba.fastjson.JSON;  
@@ -74,4 +74,6 @@ public class JsonToMapTest01 {
         System.out.println(json);  } 
 }
  ```
+ ```
    
+ ```
