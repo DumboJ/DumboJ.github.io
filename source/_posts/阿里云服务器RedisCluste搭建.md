@@ -7,5 +7,5 @@ category:
  -centos
  -RedisCluster
  -阿里云
-cover: static/bgpic/20180823193303_E2A2L.jpeg
+cover: 
 ---
