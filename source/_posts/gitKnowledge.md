@@ -223,9 +223,11 @@ Git鼓励大量使用分支：查看分支：`git branch`		创建分支：`git b
 
 ​		`B- $ git checkout branch_name`	<!--切换分支-->
 
+​		`C- $ git push origin branch_name`	<!--分支推送到远端-->
+
 ​		相当于 `$  git checkout -b branch_name`		<!--参数-b表示创建并切换分支-->
 
-​	`$ git branch` 		<!--查看当前分支,列出所有分支,当前分支前有*-->
+​	`$ git branch -a  `  		<!--查看当前分支,列出所有分支和HEAD信息,当前分支前有*-->
 
 ###### ②合并分支
 
@@ -356,6 +358,5 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 # Git 命令一览
 
 <div align="center"> <img src="https://gitee.com/CyC2018/CS-Notes/raw/master/docs/pics/7a29acce-f243-4914-9f00-f2988c528412.jpg"/> </div><br>
-
 比较详细的地址：http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf
 
