@@ -2,7 +2,7 @@
 title: Springboot 项目打包成war包和jar包
 date: 2020-04-26 19:41:18
 tags: springboot 打包
-cover: static/bgpic/
+cover:
 ---
 
 ###### 1.pom.xml文件配置
