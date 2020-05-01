@@ -2,7 +2,7 @@
 title: springboot异常处理
 date: 2020-04-28 18:31:07
 tags: Springboot 异常
-cover: 
+cover: static/bgpic/mny.jpg
 ---
 
 ###### 1.默认异常处理
