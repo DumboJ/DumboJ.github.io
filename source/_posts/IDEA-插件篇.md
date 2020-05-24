@@ -2,7 +2,7 @@
 title: IDEA 插件篇
 date: 2020-05-11 16:18:05
 tags: IDEA 插件
-conver: 
+conver: static/bgpic/nessary.jpg
 ---
 
 ​	
