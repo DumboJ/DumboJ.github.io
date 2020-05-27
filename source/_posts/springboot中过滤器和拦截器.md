@@ -2,7 +2,7 @@
 title: springboot中过滤器和拦截器
 date: 2020-04-29 14:53:15
 tags: springboot
-conver: static/bgpic/niel-bogdanov-h7hqhjst2b0-unsplash.jpg
+cover: static/bgpic/niel-bogdanov-h7hqhjst2b0-unsplash.jpg
 ---
 
 #### 过滤器

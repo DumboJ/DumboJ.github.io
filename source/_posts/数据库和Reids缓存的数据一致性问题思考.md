@@ -2,6 +2,7 @@
 title: 数据库和Reids缓存的数据一致性问题思考
 date: 2020-05-25 10:15:01
 tags: redis和mysql数据一致性的问题
+cover: static/bgpic/61688899.jpeg
 ---
 
 在这里，我们讨论三种更新策略：
