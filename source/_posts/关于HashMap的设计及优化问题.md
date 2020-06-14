@@ -1,7 +1,8 @@
 ---
 title: 关于HashMap的设计及优化问题
 date: 2020-05-27 20:39:04
-tags:
+tags: HashMap
+cover: static/bgpic/luis-paico-NNTGEoohoE4-unsplash.jpg
 ---
 
 -    - ##### JDK1.8中对hash算法和寻址算法的优化
@@ -9,7 +10,7 @@ tags:
      ``` hash值的位运算+异或运算（^）保证低位二进制数据包含高低位数据的特征，一定程度上避免后续运算hash碰撞而计算出相同的数组下标 ```
          - 优化二 寻址算法：
          ```  寻址时对hash值取模性能较低，改用位与运算提高性能。hash &(n-1)（优化后所得哈希值和n-1做与运算--n数组长度为2的n次幂）```
-        
+          
          ##### HashMap如何解决hash碰撞问题
          - ###### 问题原因：
              map.get()、map.set()都是算出key的hash值，到数组中寻址，放入或者取出key-value对，在寻址时，根据键算出的hash值与（n-1）^keyHash（相当于取模，位运算提高性能）寻址确定。该动作可能会产生hash冲突，不同键值对运算后可能得到相同的数组地址。
@@ -22,5 +23,5 @@ tags:
              - ###### 
         
        - 
-        
+       
          ![1591270893261](C:\Users\JP\AppData\Roaming\Typora\typora-user-images\1591270893261.png)
