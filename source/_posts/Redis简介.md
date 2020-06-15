@@ -2,7 +2,7 @@
 title: Redis简介
 date: 2020-06-14 15:38:18
 tags: redis
-cover: 
+cover: static/bgpic/nessary.jpg
 ---
 
 ##### C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL(非关系型数据库) key-value数 
