@@ -14,7 +14,7 @@ cover:
 2. Hash : 存储用户信息、用户主页访问量、组合查询
 3. List : 微博关注人时间轴列表、简单队列
 4. Set : 赞、踩、好友关系、标签
-5.Zset : 排行榜
+5. Zset : 排行榜
 ```
 
 ---
@@ -54,8 +54,18 @@ cover:
     append          追加
     strlen          长度
     getbit/setbit/bitcount/bitop    位操作
+    
+
+### 应用场景
+
+```
+1. String常用于保存单个字符串或Json字符串数据
+2. 因String是二进制安全的，可以把图片文件的内容作为字符串保存
+3. 计数器（常规key-value缓存应用，常规技术：微博数，粉丝数）
+```
 
 #### hash命令
+
     hset myhash name cxx
     hget myhash name
     hmset myhash name cxx age 25 note "i am notes"
@@ -69,7 +79,16 @@ cover:
     hvals myhash                 只取value
     hlen myhash                  长度
 
+### 应用场景
+
+```
+1. 常用于存储一个对象
+2. 因String是二进制安全的，可以把图片文件的内容作为字符串保存
+3. 计数器（常规key-value缓存应用，常规技术：微博数，粉丝数）
+```
+
 #### list命令
+
     lpush mylist a b c  左插入
     rpush mylist x y z  右插入
     lrange mylist 0 -1  数据集合
