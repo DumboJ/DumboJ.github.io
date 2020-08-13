@@ -2,7 +2,7 @@
 title: redis 命令
 date: 2020-06-16 00:03:14
 tags: redis常用命令
-cover: 
+cover: static/bgpic/jenny-caywood-wgQX0tMoZvA-unsplash.jpg
 ---
 
 ##### value 数据类型包含  string、hash、 list、 set、 sorted set（Zset）
@@ -54,7 +54,7 @@ cover:
     append          追加
     strlen          长度
     getbit/setbit/bitcount/bitop    位操作
-    
+
 
 ### 应用场景
 
