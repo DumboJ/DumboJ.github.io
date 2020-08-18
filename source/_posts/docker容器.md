@@ -93,6 +93,8 @@ docker pull  tomcat:8-jre8
 ```
 
 ```
-创建容器
+创建容器、映射Webapps目录
+docker run -di --name=tomcat9090 -p 9090:8080 -v /usr/local/docker/tomcat/9090/webapps:/usr/local/tomcat/webapps tomcat:8-jre8
 ```
 
+###### 3.2 Nginx部署
