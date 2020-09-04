@@ -98,3 +98,32 @@ docker run -di --name=tomcat9090 -p 9090:8080 -v /usr/local/docker/tomcat/9090/w
 ```
 
 ###### 3.2 Nginx部署
+
+##### 4.备份迁移
+
+4.1.容器保存为镜像
+
+```bash
+docker commit  tomcat9090 newDockerImage
+--tomcat9090 docker容器名称
+--newDockerImage  新保存的镜像名称
+```
+
+4.2.镜像备份
+
+通过命令将镜像保存为tar文件
+
+```bash
+docker save -o tomcat9090.tar newDockerImage
+--tomcat9090  备份的镜像名称
+--newDockerImage  新保存的镜像名称
+```
+
+4.3.镜像恢复与迁移
+
+首先我们先删除对应镜像，然后执行以下命令恢复
+
+```bash
+docker load -i tomcat9090.tar
+-i 输入的文件
+```
