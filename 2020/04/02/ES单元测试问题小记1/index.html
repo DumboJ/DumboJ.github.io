@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ES单元测试问题小记1 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,问题描述：Window 搭建完Elasticseach 环境，使用localhost 本机都能够正常访问Elasticsearch 环境，使用Springboot +集成elasticsearch ,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">ES单元测试问题小记1</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">ES单元测试问题小记1</h1>
+        <div class="stuff">
+            <span>四月 02, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/ES6-3-2/" rel="tag">ES6.3.2</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h5 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h5><h5 id="Window-搭建完Elasticseach-环境，使用localhost-本机都能够正常访问Elasticsearch-环境，使用Springboot-集成elasticsearch-提示如下错误信息：NoNodeAvailableException-None-of-the-configured-nodes-are-available"><a href="#Window-搭建完Elasticseach-环境，使用localhost-本机都能够正常访问Elasticsearch-环境，使用Springboot-集成elasticsearch-提示如下错误信息：NoNodeAvailableException-None-of-the-configured-nodes-are-available" class="headerlink" title="Window 搭建完Elasticseach 环境，使用localhost 本机都能够正常访问Elasticsearch 环境，使用Springboot +集成elasticsearch 提示如下错误信息：NoNodeAvailableException[None of the configured nodes are available"></a>Window 搭建完Elasticseach 环境，使用localhost 本机都能够正常访问Elasticsearch 环境，使用Springboot +集成elasticsearch 提示如下错误信息：NoNodeAvailableException[None of the configured nodes are available</h5><h5 id="1-相关代码："><a href="#1-相关代码：" class="headerlink" title="1.相关代码："></a>1.相关代码：</h5><h6 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h6><pre><code class="java">package cn.dumboj.springbootes;
+
+import cn.dumboj.springbootes.entity.ES.ESCoreDict;
+import cn.dumboj.springbootes.repository.ES.ESCoreDictRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.swing.*;
+import java.util.Iterator;
+import java.util.List;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+class SpringbootEsApplicationTests &#123;
+
+    @Autowired
+    ESCoreDictRepository esCoreDictRepository;
+    
+    @Test
+    public void testEs()&#123;
+        Iterable&lt;ESCoreDict&gt; all = esCoreDictRepository.findAll();
+        Iterator&lt;ESCoreDict&gt; iterator = all.iterator();
+
+        if (iterator.hasNext())
+            System.out.println(&quot;-----------&quot;+iterator.next().getName());
+    &#125;
+&#125;
+</code></pre>
+<h6 id="ESRepository代码"><a href="#ESRepository代码" class="headerlink" title="ESRepository代码"></a>ESRepository代码</h6><pre><code class="java">public interface ESCoreDictRepository extends ElasticsearchRepository&lt;ESCoreDict,Integer&gt; &#123;
+&#125;
+</code></pre>
+<h6 id="ES-JPA-properties项目文件配置"><a href="#ES-JPA-properties项目文件配置" class="headerlink" title="ES+JPA properties项目文件配置"></a>ES+JPA properties项目文件配置</h6><pre><code class="properties">#JPA配置相关
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+#ES
+spring.data.elasticsearch.cluster-nodes=127.0.0.1:9300
+spring.data.elasticsearch.cluster-name=my-application
+</code></pre>
+<h5 id="2-单元测试"><a href="#2-单元测试" class="headerlink" title="2.单元测试"></a>2.单元测试</h5><p>​    ES6.3.2  windows X64  本地环境启动并 运行单元测试。</p>
+<h6 id="Exception-message-配置文件中没有可以使用的节点"><a href="#Exception-message-配置文件中没有可以使用的节点" class="headerlink" title="Exception message:配置文件中没有可以使用的节点"></a>Exception message:配置文件中没有可以使用的节点</h6><p><img src="%5Bhttps://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/ES%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E9%94%99%E8%AF%AF%E5%B0%8F%E8%AE%B01.png%5D(https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/ES%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E9%94%99%E8%AF%AF%E5%B0%8F%E8%AE%B01.png)"></p>
+<h5 id="3-解决方式"><a href="#3-解决方式" class="headerlink" title="3.解决方式"></a>3.解决方式</h5><p>打开并修改本地ES安装目录下/config/elasticsearch.yml文件参数（默认注释）</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>cluster.name:</td>
+<td>my-application</td>
+</tr>
+<tr>
+<td>network.host:</td>
+<td>127.0.0.1</td>
+</tr>
+<tr>
+<td>http.port:</td>
+<td>9200</td>
+</tr>
+</tbody></table>
+<h5 id="4-重启ES服务，单元测试启动成功。"><a href="#4-重启ES服务，单元测试启动成功。" class="headerlink" title="4.重启ES服务，单元测试启动成功。"></a>4.重启ES服务，单元测试启动成功。</h5>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

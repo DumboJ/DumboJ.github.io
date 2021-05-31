@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Redis简介 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL(非关系型数据库) key-value数1.0 出现原因分析：
+
+High performance对数据库高并发读写的,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Redis简介</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Redis简介</h1>
+        <div class="stuff">
+            <span>六月 14, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h5 id="C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL-非关系型数据库-key-value数"><a href="#C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL-非关系型数据库-key-value数" class="headerlink" title="C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL(非关系型数据库) key-value数"></a>C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL(非关系型数据库) key-value数</h5><h5 id="1-0-出现原因分析："><a href="#1-0-出现原因分析：" class="headerlink" title="1.0 出现原因分析："></a>1.0 出现原因分析：</h5><hr>
+<ul>
+<li><p>High performance<br><br>对数据库高并发读写的需求</p>
+</li>
+<li><p>Hug storage <br>对海量数据的高效率存储和访问的需求</p>
+</li>
+<li><p>High Scalabilty &amp;&amp; High Availability <br>对数据库的高可扩展性和高可用性的需求</p>
+<h5 id="2-0-NoSQL类别"><a href="#2-0-NoSQL类别" class="headerlink" title="2.0 NoSQL类别"></a>2.0 NoSQL类别</h5></li>
+</ul>
+<hr>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>优点</th>
+<th>缺点</th>
+<th>典型应用</th>
+<th>数据模型</th>
+<th>相关产品</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>key-value 存储数据库</td>
+<td>快速查询</td>
+<td>存储的数据缺少结构化</td>
+<td>内容缓存，主要用于处理大量数据的高访问负载</td>
+<td>一系列的键值对</td>
+<td>Redis</td>
+</tr>
+<tr>
+<td>列存储数据库</td>
+<td>查找速度快，可扩展性强，更容易进行分布式扩展</td>
+<td>功能相对局限</td>
+<td>分布式的文件系统</td>
+<td>以列簇式存储，将同一列数据存在一起</td>
+<td>hbase</td>
+</tr>
+<tr>
+<td>文档型数据库</td>
+<td>数据结构要求不严格</td>
+<td>查询性能不高，并缺乏统一的查询语法</td>
+<td>web 应用（与key-value类似，value是结构化的）</td>
+<td>一系列键值对</td>
+<td>MongoDB</td>
+</tr>
+<tr>
+<td>图形数据库</td>
+<td>利用图结构相关算法</td>
+<td>需要对整个图做计算才能得出结果，不容易做分布式的集群方案</td>
+<td>社交网络</td>
+<td>图结构</td>
+<td>Neo4J</td>
+</tr>
+</tbody></table>
+<h5 id="3-0-Redis特点"><a href="#3-0-Redis特点" class="headerlink" title="3.0 Redis特点"></a>3.0 Redis特点</h5><h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
+<li><p>高性能<br><br>官方测试11W次/s读操作，8w次/s写操作</p>
+</li>
+<li><p>数据类型丰富 <br>支持String,Set,Hash,List及Ordered Set 类型操作</p>
+</li>
+<li><p>丰富特性 <br>支持publish/subscribe,通知，key过期等</p>
+</li>
+<li><p>高速读写  <br>Redis使用自己实现的分离器，代码量短，没有使用lock效率高</p>
+</li>
+<li><p>原子性 <br>所有操作都是原子性的，单个操作是原子性的；多个操作通过MULTI和EXEC实现事务原子性操作。</p>
+<h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6></li>
+<li><p>持久化 <br>Redis直接将数据存储到内存中，要将数据保存到磁盘上有两种持久化方式。RDB/AOF,后期有专题讲解。</p>
+</li>
+<li><p>内存占用过高 </p>
+<h5 id="3-0-Redis安装"><a href="#3-0-Redis安装" class="headerlink" title="3.0 Redis安装"></a>3.0 Redis安装</h5></li>
+</ul>
+<hr>
+<h6 id="3-0-1-采用C语言开发，Linux系统下需要编译，需要有GCC环境"><a href="#3-0-1-采用C语言开发，Linux系统下需要编译，需要有GCC环境" class="headerlink" title="3.0.1 采用C语言开发，Linux系统下需要编译，需要有GCC环境"></a>3.0.1 采用C语言开发，Linux系统下需要编译，需要有GCC环境</h6><pre><code> $ yum -y install gcc automake autoconf libtool make
+</code></pre>
+<h6 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h6><p></br>运行yum时出现/var/run/yum.pid已被锁定，pid为XXXX正在运行的问题解决</p>
+<pre><code>$ rm -f /var/run/yum.pid
+</code></pre>
+<h6 id="3-0-2-安装"><a href="#3-0-2-安装" class="headerlink" title="3.0.2 安装"></a>3.0.2 安装</h6><pre><code>$ wget http://download.redis.io/releases/redis-5.0.7.tar.gz
+$ tar xzf redis-6.0.5.tar.gz -C 指定解压目录
+$ cd redis-5.0.7
+$ make
+</code></pre>
+<h6 id="3-0-3-单机服务启动"><a href="#3-0-3-单机服务启动" class="headerlink" title="3.0.3 单机服务启动"></a>3.0.3 单机服务启动</h6><pre><code>$ src/redis-server
+</code></pre>
+<h6 id="3-0-4-客户端启动及简单功能使用"><a href="#3-0-4-客户端启动及简单功能使用" class="headerlink" title="3.0.4 客户端启动及简单功能使用"></a>3.0.4 客户端启动及简单功能使用</h6><h6 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h6><hr>
+<pre><code>$ src/redis-cli
+redis&gt; set foo bar
+OK
+redis&gt; get foo
+&quot;bar&quot;
+</code></pre>
+<h6 id="方式二：客户端命令语法"><a href="#方式二：客户端命令语法" class="headerlink" title="方式二：客户端命令语法"></a>方式二：客户端命令语法</h6><hr>
+<pre><code>$ src/redis-cli -h ip地址 -p 端口号 -a 密码（设置的话）
+redis&gt; set foo bar
+OK
+redis&gt; get foo
+&quot;bar&quot;
+</code></pre>
+<h5 id="4-0-Redis内存维护策略"><a href="#4-0-Redis内存维护策略" class="headerlink" title="4.0 Redis内存维护策略"></a>4.0 Redis内存维护策略</h5><hr>
+<h6 id="4-0-1-设置数据超时时间"><a href="#4-0-1-设置数据超时时间" class="headerlink" title="4.0.1 设置数据超时时间"></a>4.0.1 设置数据超时时间</h6><pre><code>--常用方式
+  expire key time (s为单位)
+--字符串
+  setex(String key，int time ,String value )
+</code></pre>
+<ul>
+<li>除字符串外，都需要以expire来设置过期时间</li>
+<li>未设置则默认为永不过期</li>
+<li>设置后取消过期时间设置：persist key<h6 id="4-0-2-LRU算法动态删除数据"><a href="#4-0-2-LRU算法动态删除数据" class="headerlink" title="4.0.2 LRU算法动态删除数据"></a>4.0.2 LRU算法动态删除数据</h6></li>
+</ul>
+<hr>
+<blockquote>
+<p>内存管理的一种页面置换算法，存在内存中但不使用的数据（内存块）叫做LRU，操作系统会移出LRU数据来加载其它数据 </p>
+</blockquote>
+<ul>
+<li>volatile-lru: 设定超时时间的数据中，删除最不常使用的数据</li>
+<li>allkeys-lru:  查询所有的key中最近最不常使用的数据删除（使用广泛）</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

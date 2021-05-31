@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>redis 命令 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,value 数据类型包含  string、hash、 list、 set、 sorted set（Zset）互联网公司一般使用场景1. String : 缓存、限流、计数器、分布式锁、分布式sess,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">redis 命令</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">redis 命令</h1>
+        <div class="stuff">
+            <span>六月 16, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="tag">redis常用命令</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h5 id="value-数据类型包含-string、hash、-list、-set、-sorted-set（Zset）"><a href="#value-数据类型包含-string、hash、-list、-set、-sorted-set（Zset）" class="headerlink" title="value 数据类型包含  string、hash、 list、 set、 sorted set（Zset）"></a>value 数据类型包含  string、hash、 list、 set、 sorted set（Zset）</h5><h4 id="互联网公司一般使用场景"><a href="#互联网公司一般使用场景" class="headerlink" title="互联网公司一般使用场景"></a>互联网公司一般使用场景</h4><pre><code>1. String : 缓存、限流、计数器、分布式锁、分布式session
+2. Hash : 存储用户信息、用户主页访问量、组合查询
+3. List : 微博关注人时间轴列表、简单队列
+4. Set : 赞、踩、好友关系、标签
+5. Zset : 排行榜
+</code></pre>
+<hr>
+<h4 id="key命令"><a href="#key命令" class="headerlink" title="key命令"></a>key命令</h4><pre><code>keys * 获取所有的key
+select 0 选择第一个库
+move myString 1 将当前的数据库key移动到某个数据库,目标库有，则不能移动
+flush db      清除指定库
+randomkey     随机key
+type key      类型
+
+set key1 value1 设置key
+get key1    获取key
+mset key1 value1 key2 value2 key3 value3
+mget key1 key2 key3
+del key1   删除key
+exists key      判断是否存在key
+expire key 10   10过期
+pexpire key 1000 毫秒
+persist key     删除过期时间
+</code></pre>
+<h4 id="string命令"><a href="#string命令" class="headerlink" title="string命令"></a>string命令</h4><pre><code>set name cxx
+get name
+getrange name 0 -1        字符串分段
+getset name new_cxx       设置值，返回旧值
+mset key1 key2            批量设置
+mget key1 key2            批量获取
+setnx key value           不存在就插入（not exists）
+setex key time value      过期时间（expire）
+setrange key index value  从index开始替换value
+incr age        递增
+incrby age 10   递增
+decr age        递减
+decrby age 10   递减
+incrbyfloat     增减浮点数
+append          追加
+strlen          长度
+getbit/setbit/bitcount/bitop    位操作
+</code></pre>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><pre><code>1. String常用于保存单个字符串或Json字符串数据
+2. 因String是二进制安全的，可以把图片文件的内容作为字符串保存
+3. 计数器（常规key-value缓存应用，常规技术：微博数，粉丝数）
+</code></pre>
+<h4 id="hash命令"><a href="#hash命令" class="headerlink" title="hash命令"></a>hash命令</h4><pre><code>hset myhash name cxx
+hget myhash name
+hmset myhash name cxx age 25 note &quot;i am notes&quot;
+hmget myhash name age note   
+hgetall myhash               获取所有的
+hexists myhash name          是否存在
+hsetnx myhash score 100      设置不存在的
+hincrby myhash id 1          递增
+hdel myhash name             删除
+hkeys myhash                 只取key
+hvals myhash                 只取value
+hlen myhash                  长度
+</code></pre>
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h3><pre><code>1. 常用于存储一个对象
+2. 因String是二进制安全的，可以把图片文件的内容作为字符串保存
+3. 计数器（常规key-value缓存应用，常规技术：微博数，粉丝数）
+</code></pre>
+<h4 id="list命令"><a href="#list命令" class="headerlink" title="list命令"></a>list命令</h4><pre><code>lpush mylist a b c  左插入
+rpush mylist x y z  右插入
+lrange mylist 0 -1  数据集合
+lpop mylist  弹出元素
+rpop mylist  弹出元素
+llen mylist  长度
+lrem mylist count value  删除
+lindex mylist 2          指定索引的值
+lset mylist 2 n          索引设值
+ltrim mylist 0 4         删除key
+linsert mylist before a  插入
+linsert mylist after a   插入
+rpoplpush list list2     转移列表的数据
+</code></pre>
+<h4 id="set命令"><a href="#set命令" class="headerlink" title="set命令"></a>set命令</h4><pre><code>sadd myset redis 
+smembers myset       数据集合
+srem myset set1         删除
+sismember myset set1 判断元素是否在集合中
+scard key_name       个数
+sdiff | sinter | sunion 操作：集合间运算：差集 | 交集 | 并集
+srandmember          随机获取集合中的元素
+spop                 从集合中弹出一个元素
+</code></pre>
+<h4 id="zset命令"><a href="#zset命令" class="headerlink" title="zset命令"></a>zset命令</h4><pre><code>zadd zset 1 one
+zadd zset 2 two
+zadd zset 3 three
+zincrby zset 1 one              增长分数
+zscore zset two                 获取分数
+zrange zset 0 -1 withscores     范围值
+zrangebyscore zset 10 25 withscores 指定范围的值
+zrangebyscore zset 10 25 withscores limit 1 2 分页
+Zrevrangebyscore zset 10 25 withscores  指定范围的值
+zcard zset  元素数量
+Zcount zset 获得指定分数范围内的元素个数
+Zrem zset one two        删除一个或多个元素
+Zremrangebyrank zset 0 1  按照排名范围删除元素
+Zremrangebyscore zset 0 1 按照分数范围删除元素
+Zrank zset 0 -1    分数最小的元素排名为0
+Zrevrank zset 0 -1  分数最大的元素排名为0
+Zinterstore
+zunionstore rank:last_week 7 rank:20150323 rank:20150324 rank:20150325  weights 1 1 1 1 1 1 1
+</code></pre>
+<p>​    </p>
+<h4 id="排序命令"><a href="#排序命令" class="headerlink" title="排序命令"></a>排序命令</h4><pre><code>sort mylist  排序
+sort mylist alpha desc limit 0 2 字母排序
+sort list by it:* desc           by命令
+sort list by it:* desc get it:*  get参数
+sort list by it:* desc get it:* store sorc:result  sort命令之store参数：表示把sort查询的结果集保存起来
+</code></pre>
+<h4 id="订阅与发布命令"><a href="#订阅与发布命令" class="headerlink" title="订阅与发布命令"></a>订阅与发布命令</h4><pre><code>订阅频道：subscribe chat1
+发布消息：publish chat1 &quot;hell0 ni hao&quot;
+查看频道：pubsub channels
+查看某个频道的订阅者数量: pubsub numsub chat1
+退订指定频道： unsubscrible chat1   , punsubscribe java.*
+订阅一组频道： psubscribe java.*
+</code></pre>
+<h4 id="redis事务"><a href="#redis事务" class="headerlink" title="redis事务"></a>redis事务</h4><pre><code> 隔离性，原子性， 
+ 步骤：  开始事务，执行命令，提交事务
+         multi  //开启事务
+         sadd myset a b c
+         sadd myset e f g
+         lpush mylist aa bb cc
+         lpush mylist dd ff gg
+</code></pre>
+<h4 id="服务器管理相关命令"><a href="#服务器管理相关命令" class="headerlink" title="服务器管理相关命令"></a>服务器管理相关命令</h4><pre><code>dump.rdb
+appendonly.aof
+//BgRewriteAof 异步执行一个aop(appendOnly file)文件重写
+会创建当前一个AOF文件体积的优化版本
+
+//BgSave 后台异步保存数据到磁盘，会在当前目录下创建文件dump.rdb
+//save同步保存数据到磁盘，会阻塞主进程，别的客户端无法连接
+
+//client kill 关闭客户端连接
+//client list 列出所有的客户端
+
+//给客户端设置一个名称
+  client setname myclient1
+  client getname
+  
+ config get port
+ //configRewrite 对redis的配置文件进行改写
+</code></pre>
+<h4 id="rdb"><a href="#rdb" class="headerlink" title="rdb"></a>rdb</h4><pre><code>save 900 1
+save 300 10
+save 60 10000
+</code></pre>
+<h4 id="aop备份处理"><a href="#aop备份处理" class="headerlink" title="aop备份处理"></a>aop备份处理</h4><pre><code>appendonly yes    开启持久化
+appendfsync everysec  每秒备份一次
+</code></pre>
+<h4 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h4><pre><code>bgsave异步保存数据到磁盘（快照保存）
+lastsave返回上次成功保存到磁盘的unix的时间戳
+shutdown同步保存到服务器并关闭redis服务器
+bgrewriteaof文件压缩处理（命令）
+</code></pre>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

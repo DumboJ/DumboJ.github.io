@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>DumboJ</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://dumboj.top/"/>
+  <updated>2021-05-31T18:36:23.352Z</updated>
+  <id>http://dumboj.top/</id>
+  
+  <author>
+    <name>Jun Qian</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>亿级流量缓存架构相关笔记</title>
+    <link href="http://dumboj.top/2020/09/07/%E4%BA%BF%E7%BA%A7%E6%B5%81%E9%87%8F%E7%BC%93%E5%AD%98%E6%9E%B6%E6%9E%84%E7%AF%87/"/>
+    <id>http://dumboj.top/2020/09/07/亿级流量缓存架构篇/</id>
+    <published>2020-09-07T02:25:36.000Z</published>
+    <updated>2021-05-31T18:36:23.352Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>分布式锁相关</title>
+    <link href="http://dumboj.top/2020/07/16/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9B%B8%E5%85%B3/"/>
+    <id>http://dumboj.top/2020/07/16/分布式锁相关/</id>
+    <published>2020-07-16T03:25:50.000Z</published>
+    <updated>2021-05-31T18:36:23.353Z</updated>
+    
+    <content type="html"><![CDATA[<p>分布式锁：在分布式环境下，执行事务的线程存在于不同的网络服务器中，实现在分布式网络下的线程协同操作。</p><p>分布式死锁解决方案：死锁检测和超时方法。</p><blockquote><p>超时方法：超时方式是在创建分布式线程的时候，对每个线程都设置一个超时时间</p></blockquote><blockquote><p>死锁检测：可以理解为一个运行在各个服务器系统上的线程或方法，该方法专门用来探索发现应用服务上的线程是否发生了死锁。如果发生死锁，就会触发相应的预设处理方案</p></blockquote><blockquote><p>Zk中锁的实现：</p><p>排它锁：排他锁</p><p>共享锁：只对数据事务的写操作加锁。在ZK中实现只对同一个数据事务使用两个数据节点，按照读写区分数据事务的读W写R操作。</p></blockquote><p>​    </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;分布式锁：在分布式环境下，执行事务的线程存在于不同的网络服务器中，实现在分布式网络下的线程协同操作。&lt;/p&gt;
+&lt;p&gt;分布式死锁解决方案：死锁检测和超时方法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;超时方法：超时方式是在创建分布式线程的时候，对每个线程都设置一个超时时间&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="分布式死锁、" scheme="http://dumboj.top/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E6%AD%BB%E9%94%81%E3%80%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis 命令</title>
+    <link href="http://dumboj.top/2020/06/16/redis-%E5%91%BD%E4%BB%A4/"/>
+    <id>http://dumboj.top/2020/06/16/redis-命令/</id>
+    <published>2020-06-15T16:03:14.000Z</published>
+    <updated>2021-05-31T18:36:23.350Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="value-数据类型包含-string、hash、-list、-set、-sorted-set（Zset）"><a href="#value-数据类型包含-string、hash、-list、-set、-sorted-set（Zset）" class="headerlink" title="value 数据类型包含  string、hash、 list、 set、 sorted set（Zset）"></a>value 数据类型包含  string、hash、 list、 set、 sorted set（Zset）</h5><h4 id="互联网公司一般使用场景"><a href="#互联网公司一般使用场景" class="headerlink" title="互联网公司一般使用场景"></a>互联网公司一般使用场景</h4><pre><code>1. String : 缓存、限流、计数器、分布式锁、分布式session2. Hash : 存储用户信息、用户主页访问量、组合查询3. List : 微博关注人时间轴列表、简单队列4. Set : 赞、踩、好友关系、标签5. Zset : 排行榜</code></pre><hr><h4 id="key命令"><a href="#key命令" class="headerlink" title="key命令"></a>key命令</h4><pre><code>keys * 获取所有的keyselect 0 选择第一个库move myString 1 将当前的数据库key移动到某个数据库,目标库有，则不能移动flush db      清除指定库randomkey     随机keytype key      类型set key1 value1 设置keyget key1    获取keymset key1 value1 key2 value2 key3 value3mget key1 key2 key3del key1   删除keyexists key      判断是否存在keyexpire key 10   10过期pexpire key 1000 毫秒persist key     删除过期时间</code></pre><h4 id="string命令"><a href="#string命令" class="headerlink" title="string命令"></a>string命令</h4><pre><code>set name cxxget namegetrange name 0 -1        字符串分段getset name new_cxx       设置值，返回旧值mset key1 key2            批量设置mget key1 key2            批量获取setnx key value           不存在就插入（not exists）setex key time value      过期时间（expire）setrange key index value  从index开始替换valueincr age        递增incrby age 10   递增decr age        递减decrby age 10   递减incrbyfloat     增减浮点数append          追加strlen          长度getbit/setbit/bitcount/bitop    位操作</code></pre><h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><pre><code>1. String常用于保存单个字符串或Json字符串数据2. 因String是二进制安全的，可以把图片文件的内容作为字符串保存3. 计数器（常规key-value缓存应用，常规技术：微博数，粉丝数）</code></pre><h4 id="hash命令"><a href="#hash命令" class="headerlink" title="hash命令"></a>hash命令</h4><pre><code>hset myhash name cxxhget myhash namehmset myhash name cxx age 25 note &quot;i am notes&quot;hmget myhash name age note   hgetall myhash               获取所有的hexists myhash name          是否存在hsetnx myhash score 100      设置不存在的hincrby myhash id 1          递增hdel myhash name             删除hkeys myhash                 只取keyhvals myhash                 只取valuehlen myhash                  长度</code></pre><h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h3><pre><code>1. 常用于存储一个对象2. 因String是二进制安全的，可以把图片文件的内容作为字符串保存3. 计数器（常规key-value缓存应用，常规技术：微博数，粉丝数）</code></pre><h4 id="list命令"><a href="#list命令" class="headerlink" title="list命令"></a>list命令</h4><pre><code>lpush mylist a b c  左插入rpush mylist x y z  右插入lrange mylist 0 -1  数据集合lpop mylist  弹出元素rpop mylist  弹出元素llen mylist  长度lrem mylist count value  删除lindex mylist 2          指定索引的值lset mylist 2 n          索引设值ltrim mylist 0 4         删除keylinsert mylist before a  插入linsert mylist after a   插入rpoplpush list list2     转移列表的数据</code></pre><h4 id="set命令"><a href="#set命令" class="headerlink" title="set命令"></a>set命令</h4><pre><code>sadd myset redis smembers myset       数据集合srem myset set1         删除sismember myset set1 判断元素是否在集合中scard key_name       个数sdiff | sinter | sunion 操作：集合间运算：差集 | 交集 | 并集srandmember          随机获取集合中的元素spop                 从集合中弹出一个元素</code></pre><h4 id="zset命令"><a href="#zset命令" class="headerlink" title="zset命令"></a>zset命令</h4><pre><code>zadd zset 1 onezadd zset 2 twozadd zset 3 threezincrby zset 1 one              增长分数zscore zset two                 获取分数zrange zset 0 -1 withscores     范围值zrangebyscore zset 10 25 withscores 指定范围的值zrangebyscore zset 10 25 withscores limit 1 2 分页Zrevrangebyscore zset 10 25 withscores  指定范围的值zcard zset  元素数量Zcount zset 获得指定分数范围内的元素个数Zrem zset one two        删除一个或多个元素Zremrangebyrank zset 0 1  按照排名范围删除元素Zremrangebyscore zset 0 1 按照分数范围删除元素Zrank zset 0 -1    分数最小的元素排名为0Zrevrank zset 0 -1  分数最大的元素排名为0Zinterstorezunionstore rank:last_week 7 rank:20150323 rank:20150324 rank:20150325  weights 1 1 1 1 1 1 1</code></pre><p>​    </p><h4 id="排序命令"><a href="#排序命令" class="headerlink" title="排序命令"></a>排序命令</h4><pre><code>sort mylist  排序sort mylist alpha desc limit 0 2 字母排序sort list by it:* desc           by命令sort list by it:* desc get it:*  get参数sort list by it:* desc get it:* store sorc:result  sort命令之store参数：表示把sort查询的结果集保存起来</code></pre><h4 id="订阅与发布命令"><a href="#订阅与发布命令" class="headerlink" title="订阅与发布命令"></a>订阅与发布命令</h4><pre><code>订阅频道：subscribe chat1发布消息：publish chat1 &quot;hell0 ni hao&quot;查看频道：pubsub channels查看某个频道的订阅者数量: pubsub numsub chat1退订指定频道： unsubscrible chat1   , punsubscribe java.*订阅一组频道： psubscribe java.*</code></pre><h4 id="redis事务"><a href="#redis事务" class="headerlink" title="redis事务"></a>redis事务</h4><pre><code> 隔离性，原子性，  步骤：  开始事务，执行命令，提交事务         multi  //开启事务         sadd myset a b c         sadd myset e f g         lpush mylist aa bb cc         lpush mylist dd ff gg</code></pre><h4 id="服务器管理相关命令"><a href="#服务器管理相关命令" class="headerlink" title="服务器管理相关命令"></a>服务器管理相关命令</h4><pre><code>dump.rdbappendonly.aof//BgRewriteAof 异步执行一个aop(appendOnly file)文件重写会创建当前一个AOF文件体积的优化版本//BgSave 后台异步保存数据到磁盘，会在当前目录下创建文件dump.rdb//save同步保存数据到磁盘，会阻塞主进程，别的客户端无法连接//client kill 关闭客户端连接//client list 列出所有的客户端//给客户端设置一个名称  client setname myclient1  client getname   config get port //configRewrite 对redis的配置文件进行改写</code></pre><h4 id="rdb"><a href="#rdb" class="headerlink" title="rdb"></a>rdb</h4><pre><code>save 900 1save 300 10save 60 10000</code></pre><h4 id="aop备份处理"><a href="#aop备份处理" class="headerlink" title="aop备份处理"></a>aop备份处理</h4><pre><code>appendonly yes    开启持久化appendfsync everysec  每秒备份一次</code></pre><h4 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h4><pre><code>bgsave异步保存数据到磁盘（快照保存）lastsave返回上次成功保存到磁盘的unix的时间戳shutdown同步保存到服务器并关闭redis服务器bgrewriteaof文件压缩处理（命令）</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h5 id=&quot;value-数据类型包含-string、hash、-list、-set、-sorted-set（Zset）&quot;&gt;&lt;a href=&quot;#value-数据类型包含-string、hash、-list、-set、-sorted-set（Zset）&quot; class=&quot;heade
+      
+    
+    </summary>
+    
+    
+      <category term="redis常用命令" scheme="http://dumboj.top/tags/redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis简介</title>
+    <link href="http://dumboj.top/2020/06/14/Redis%E7%AE%80%E4%BB%8B/"/>
+    <id>http://dumboj.top/2020/06/14/Redis简介/</id>
+    <published>2020-06-14T07:38:18.000Z</published>
+    <updated>2021-05-31T18:36:23.344Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL-非关系型数据库-key-value数"><a href="#C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL-非关系型数据库-key-value数" class="headerlink" title="C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL(非关系型数据库) key-value数"></a>C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL(非关系型数据库) key-value数</h5><h5 id="1-0-出现原因分析："><a href="#1-0-出现原因分析：" class="headerlink" title="1.0 出现原因分析："></a>1.0 出现原因分析：</h5><hr><ul><li><p>High performance<br><br>对数据库高并发读写的需求</p></li><li><p>Hug storage <br>对海量数据的高效率存储和访问的需求</p></li><li><p>High Scalabilty &amp;&amp; High Availability <br>对数据库的高可扩展性和高可用性的需求</p><h5 id="2-0-NoSQL类别"><a href="#2-0-NoSQL类别" class="headerlink" title="2.0 NoSQL类别"></a>2.0 NoSQL类别</h5></li></ul><hr><table><thead><tr><th>类别</th><th>优点</th><th>缺点</th><th>典型应用</th><th>数据模型</th><th>相关产品</th></tr></thead><tbody><tr><td>key-value 存储数据库</td><td>快速查询</td><td>存储的数据缺少结构化</td><td>内容缓存，主要用于处理大量数据的高访问负载</td><td>一系列的键值对</td><td>Redis</td></tr><tr><td>列存储数据库</td><td>查找速度快，可扩展性强，更容易进行分布式扩展</td><td>功能相对局限</td><td>分布式的文件系统</td><td>以列簇式存储，将同一列数据存在一起</td><td>hbase</td></tr><tr><td>文档型数据库</td><td>数据结构要求不严格</td><td>查询性能不高，并缺乏统一的查询语法</td><td>web 应用（与key-value类似，value是结构化的）</td><td>一系列键值对</td><td>MongoDB</td></tr><tr><td>图形数据库</td><td>利用图结构相关算法</td><td>需要对整个图做计算才能得出结果，不容易做分布式的集群方案</td><td>社交网络</td><td>图结构</td><td>Neo4J</td></tr></tbody></table><h5 id="3-0-Redis特点"><a href="#3-0-Redis特点" class="headerlink" title="3.0 Redis特点"></a>3.0 Redis特点</h5><h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul><li><p>高性能<br><br>官方测试11W次/s读操作，8w次/s写操作</p></li><li><p>数据类型丰富 <br>支持String,Set,Hash,List及Ordered Set 类型操作</p></li><li><p>丰富特性 <br>支持publish/subscribe,通知，key过期等</p></li><li><p>高速读写  <br>Redis使用自己实现的分离器，代码量短，没有使用lock效率高</p></li><li><p>原子性 <br>所有操作都是原子性的，单个操作是原子性的；多个操作通过MULTI和EXEC实现事务原子性操作。</p><h6 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h6></li><li><p>持久化 <br>Redis直接将数据存储到内存中，要将数据保存到磁盘上有两种持久化方式。RDB/AOF,后期有专题讲解。</p></li><li><p>内存占用过高 </p><h5 id="3-0-Redis安装"><a href="#3-0-Redis安装" class="headerlink" title="3.0 Redis安装"></a>3.0 Redis安装</h5></li></ul><hr><h6 id="3-0-1-采用C语言开发，Linux系统下需要编译，需要有GCC环境"><a href="#3-0-1-采用C语言开发，Linux系统下需要编译，需要有GCC环境" class="headerlink" title="3.0.1 采用C语言开发，Linux系统下需要编译，需要有GCC环境"></a>3.0.1 采用C语言开发，Linux系统下需要编译，需要有GCC环境</h6><pre><code> $ yum -y install gcc automake autoconf libtool make</code></pre><h6 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h6><p></br>运行yum时出现/var/run/yum.pid已被锁定，pid为XXXX正在运行的问题解决</p><pre><code>$ rm -f /var/run/yum.pid</code></pre><h6 id="3-0-2-安装"><a href="#3-0-2-安装" class="headerlink" title="3.0.2 安装"></a>3.0.2 安装</h6><pre><code>$ wget http://download.redis.io/releases/redis-5.0.7.tar.gz$ tar xzf redis-6.0.5.tar.gz -C 指定解压目录$ cd redis-5.0.7$ make</code></pre><h6 id="3-0-3-单机服务启动"><a href="#3-0-3-单机服务启动" class="headerlink" title="3.0.3 单机服务启动"></a>3.0.3 单机服务启动</h6><pre><code>$ src/redis-server</code></pre><h6 id="3-0-4-客户端启动及简单功能使用"><a href="#3-0-4-客户端启动及简单功能使用" class="headerlink" title="3.0.4 客户端启动及简单功能使用"></a>3.0.4 客户端启动及简单功能使用</h6><h6 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h6><hr><pre><code>$ src/redis-cliredis&gt; set foo barOKredis&gt; get foo&quot;bar&quot;</code></pre><h6 id="方式二：客户端命令语法"><a href="#方式二：客户端命令语法" class="headerlink" title="方式二：客户端命令语法"></a>方式二：客户端命令语法</h6><hr><pre><code>$ src/redis-cli -h ip地址 -p 端口号 -a 密码（设置的话）redis&gt; set foo barOKredis&gt; get foo&quot;bar&quot;</code></pre><h5 id="4-0-Redis内存维护策略"><a href="#4-0-Redis内存维护策略" class="headerlink" title="4.0 Redis内存维护策略"></a>4.0 Redis内存维护策略</h5><hr><h6 id="4-0-1-设置数据超时时间"><a href="#4-0-1-设置数据超时时间" class="headerlink" title="4.0.1 设置数据超时时间"></a>4.0.1 设置数据超时时间</h6><pre><code>--常用方式  expire key time (s为单位)--字符串  setex(String key，int time ,String value )</code></pre><ul><li>除字符串外，都需要以expire来设置过期时间</li><li>未设置则默认为永不过期</li><li>设置后取消过期时间设置：persist key<h6 id="4-0-2-LRU算法动态删除数据"><a href="#4-0-2-LRU算法动态删除数据" class="headerlink" title="4.0.2 LRU算法动态删除数据"></a>4.0.2 LRU算法动态删除数据</h6></li></ul><hr><blockquote><p>内存管理的一种页面置换算法，存在内存中但不使用的数据（内存块）叫做LRU，操作系统会移出LRU数据来加载其它数据 </p></blockquote><ul><li>volatile-lru: 设定超时时间的数据中，删除最不常使用的数据</li><li>allkeys-lru:  查询所有的key中最近最不常使用的数据删除（使用广泛）</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h5 id=&quot;C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL-非关系型数据库-key-value数&quot;&gt;&lt;a href=&quot;#C语言编写，完全开源免费，遵循BSD协议（伯克利软件发行版），高性能的NoSQL-非关系型数据库-key-value数&quot; 
+      
+    
+    </summary>
+    
+    
+      <category term="redis" scheme="http://dumboj.top/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于HashMap的设计及优化问题</title>
+    <link href="http://dumboj.top/2020/05/27/%E5%85%B3%E4%BA%8EHashMap%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8F%8A%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/"/>
+    <id>http://dumboj.top/2020/05/27/关于HashMap的设计及优化问题/</id>
+    <published>2020-05-27T12:39:04.000Z</published>
+    <updated>2021-05-31T18:36:23.352Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><ul><li><h5 id="JDK1-8中对hash算法和寻址算法的优化"><a href="#JDK1-8中对hash算法和寻址算法的优化" class="headerlink" title="JDK1.8中对hash算法和寻址算法的优化"></a>JDK1.8中对hash算法和寻址算法的优化</h5><pre><code>- 优化一 hash算法： </code></pre><code>hash值的位运算+异或运算（^）保证低位二进制数据包含高低位数据的特征，一定程度上避免后续运算hash碰撞而计算出相同的数组下标</code><pre><code>- 优化二 寻址算法：```  寻址时对hash值取模性能较低，改用位与运算提高性能。hash &amp;(n-1)（优化后所得哈希值和n-1做与运算--n数组长度为2的n次幂）``` ##### HashMap如何解决hash碰撞问题- ###### 问题原因：    map.get()、map.set()都是算出key的hash值，到数组中寻址，放入或者取出key-value对，在寻址时，根据键算出的hash值与（n-1）^keyHash（相当于取模，位运算提高性能）寻址确定。该动作可能会产生hash冲突，不同键值对运算后可能得到相同的数组地址。- ###### 解决方式    存放数据时，在寻址后具有相同位置的地方挂一个链表存放元素；取数据定位到数组时若存在链表则遍历链表，查找对应的key取值。 -- 链表长度过长时，遍历时间复杂度为O(n)；链表达到一定长度后，会将链表转换为红黑树，红黑树遍历查找一个元素的时间复杂度为O（logn）,性能通链表。##### HashMap的扩容   - ###### rehash双倍扩容     ##### ConcurrentHashMap实现线程安全的底层原理    - ###### </code></pre><ul><li><img src="C:\Users\JP\AppData\Roaming\Typora\typora-user-images\1591270893261.png" alt="1591270893261"></li></ul></li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;&lt;h5 id=&quot;JDK1-8中对hash算法和寻址算法的优化&quot;&gt;&lt;a href=&quot;#JDK1-8中对hash算法和寻址算法的优化&quot; class=&quot;headerlink&quot; title=&quot;JDK1.8中对hash算法和寻址算法的优化&quot;&gt;&lt;/a&gt;JD
+      
+    
+    </summary>
+    
+    
+      <category term="HashMap" scheme="http://dumboj.top/tags/HashMap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据库和Reids缓存的数据一致性问题思考</title>
+    <link href="http://dumboj.top/2020/05/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8CReids%E7%BC%93%E5%AD%98%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83/"/>
+    <id>http://dumboj.top/2020/05/25/数据库和Reids缓存的数据一致性问题思考/</id>
+    <published>2020-05-25T02:15:01.000Z</published>
+    <updated>2021-05-31T18:36:23.353Z</updated>
+    
+    <content type="html"><![CDATA[<p>在这里，我们讨论三种更新策略：</p><p>先更新缓存，再更新数据库</p><p>先更新数据库，再更新缓存</p><p>先删除缓存，再更新数据库</p><p>先更新数据库，再删除缓存</p><h5 id="第一种，先更新缓存，再更新数据库"><a href="#第一种，先更新缓存，再更新数据库" class="headerlink" title="第一种，先更新缓存，再更新数据库"></a>第一种，先更新缓存，再更新数据库</h5><p>问题：更新缓存成功，更新数据库失败，导致数据不一致。</p><h5 id="第二种，先更新数据库，再更新缓存"><a href="#第二种，先更新数据库，再更新缓存" class="headerlink" title="第二种，先更新数据库，再更新缓存"></a>第二种，先更新数据库，再更新缓存</h5><p>问题：</p><p>1、A更新数据库</p><p>2、B更新数据库</p><p>3、B写入缓存</p><p>4、A写入缓存</p><p>出现数据不一致。</p><p>第二种，先删除缓存，再更新数据库。网络上的方案</p><p>延时双删</p><p>1、先删除缓存</p><p>2、更新数据库</p><p>3、等待一会再删除缓存</p><p>问题之一：延时双删，演变成了：先更新数据库，再删除缓存。。。。</p><p>比如：</p><p>1、A删除缓存</p><p>2、B查询数据库获取旧值</p><p>3、B更新了缓存</p><p>4、A更新数据库</p><p>5、A延时删缓存</p><p>1～3步执行后，数据库和缓存是一致的，成了开支执行前的状态，相当于没执行。</p><p>4～5步：先更新数据库，再删缓存。</p><p>所以延时双删演变成了：先更新数据库，再删除缓存。问题还是没解决。。。</p><p>为什么？假设，此时，在第4步执行之前，又来了个查询C，C查询到旧值。第6步：C将旧值插入缓存。此时出现缓存和数据库不一致。</p><p>延时并不能解决：C插入缓存的操作在第5步后面执行，比如C遇到网络问题、GC问题等。当然这是小概率，但并不代表不存在。</p><p>当然，延时越长，这个问题越能规避。如果业务需求不是非常严格，是可以忽略的。</p><h5 id="第三种，先更新数据库，再删除缓存"><a href="#第三种，先更新数据库，再删除缓存" class="headerlink" title="第三种，先更新数据库，再删除缓存"></a>第三种，先更新数据库，再删除缓存</h5><p>问题：上面C的查询，已经说明问题了。</p><p>出现数据不一致的概率，比较小。采取这个方案，取决于业务需求。</p><p>终极方案</p><p>真正靠谱的方案：将访问操作串行化</p><p>先删缓存，将更新数据库的操作放进有序队列中</p><p>从缓存查不到的查询操作，都进入有序队列</p><p>会面临的问题：</p><p>读请求积压，大量超时，导致数据库的压力：限流、熔断</p><p>如何避免大量请求积压：将队列水平拆分，提高并行度。</p><p>保证相同请求路由正确。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在这里，我们讨论三种更新策略：&lt;/p&gt;
+&lt;p&gt;先更新缓存，再更新数据库&lt;/p&gt;
+&lt;p&gt;先更新数据库，再更新缓存&lt;/p&gt;
+&lt;p&gt;先删除缓存，再更新数据库&lt;/p&gt;
+&lt;p&gt;先更新数据库，再删除缓存&lt;/p&gt;
+&lt;h5 id=&quot;第一种，先更新缓存，再更新数据库&quot;&gt;&lt;a href=&quot;#第
+      
+    
+    </summary>
+    
+    
+      <category term="redis和mysql数据一致性的问题" scheme="http://dumboj.top/tags/redis%E5%92%8Cmysql%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面试考察能力和技术方向</title>
+    <link href="http://dumboj.top/2020/05/24/%E9%9D%A2%E8%AF%95%E8%80%83%E5%AF%9F%E8%83%BD%E5%8A%9B%E5%92%8C%E6%8A%80%E6%9C%AF%E6%96%B9%E5%90%91/"/>
+    <id>http://dumboj.top/2020/05/24/面试考察能力和技术方向/</id>
+    <published>2020-05-24T08:58:21.000Z</published>
+    <updated>2021-05-31T18:36:23.354Z</updated>
+    
+    <content type="html"><![CDATA[<p>​    观看《 互联网Java工程师面试突击（第三季） 》时发现，缺少对于工作面试考察的层面和技术体系缺乏一个完整的认识和总结。借此篇博客做一个浅略的总结和思考，希望对自己的职业发展有些帮助。</p><h4 id="面试考察受试者的方面"><a href="#面试考察受试者的方面" class="headerlink" title="面试考察受试者的方面"></a>面试考察受试者的方面</h4><h5 id="一、技术层面："><a href="#一、技术层面：" class="headerlink" title="一、技术层面："></a>一、技术层面：</h5><ul><li><h6 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h6><p>​    数据结构和算法、网络协议、通信协议、计算机组成原理、操作系统</p></li><li><h6 id="技术广度"><a href="#技术广度" class="headerlink" title="技术广度"></a>技术广度</h6><p>​    分布式、微服务、缓存、消息中间件、服务治理、分库分表、消息检索、数据库、</p></li><li><h6 id="技术深度"><a href="#技术深度" class="headerlink" title="技术深度"></a>技术深度</h6><p>​    源码阅读、项目深度、开源社区</p></li><li><h6 id="项目经验"><a href="#项目经验" class="headerlink" title="项目经验"></a>项目经验</h6><p>​    2C、2B、政企、金融、电信、移动互联网、CURD</p></li><li><h6 id="架构能力"><a href="#架构能力" class="headerlink" title="架构能力"></a>架构能力</h6><p>​    设计过的架构数据量</p></li></ul><h5 id="二、综合角度"><a href="#二、综合角度" class="headerlink" title="二、综合角度"></a>二、综合角度</h5><ul><li><h6 id="管理能力"><a href="#管理能力" class="headerlink" title="管理能力"></a>管理能力</h6></li><li><h6 id="学历"><a href="#学历" class="headerlink" title="学历"></a>学历</h6></li><li><h6 id="履历"><a href="#履历" class="headerlink" title="履历"></a>履历</h6></li><li><h6 id="软素质"><a href="#软素质" class="headerlink" title="软素质"></a>软素质</h6><p>​    沟通能力、表达能力、团队协作、性格、价值观等</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;​    观看《 互联网Java工程师面试突击（第三季） 》时发现，缺少对于工作面试考察的层面和技术体系缺乏一个完整的认识和总结。借此篇博客做一个浅略的总结和思考，希望对自己的职业发展有些帮助。&lt;/p&gt;
+&lt;h4 id=&quot;面试考察受试者的方面&quot;&gt;&lt;a href=&quot;#面试考察受
+      
+    
+    </summary>
+    
+    
+      <category term="面试能力" scheme="http://dumboj.top/tags/%E9%9D%A2%E8%AF%95%E8%83%BD%E5%8A%9B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IDEA 插件篇</title>
+    <link href="http://dumboj.top/2020/05/11/IDEA-%E6%8F%92%E4%BB%B6%E7%AF%87/"/>
+    <id>http://dumboj.top/2020/05/11/IDEA-插件篇/</id>
+    <published>2020-05-11T08:18:05.000Z</published>
+    <updated>2021-05-31T18:36:23.343Z</updated>
+    
+    <content type="html"><![CDATA[<p>​    </p><table><thead><tr><th>插件名</th><th>功能</th><th>备注</th></tr></thead><tbody><tr><td>IDE Features Trainer</td><td>在 IDE 中以交互方式学习IDEA最常用的快捷方式和最基本功能</td><td>无、编辑器中Learn选项</td></tr><tr><td>GsonFormat</td><td>JSON格式转换</td><td>Windows: Ctrl + Enter; <br />Mac: Command + Enter )</td></tr><tr><td>RoboPOJOGenerator</td><td>JSon转类对象</td><td></td></tr><tr><td>Codota</td><td>代码智能提示</td><td><a href="https://www.codota.com/code">https://www.codota.com/code</a><br>根据代码关键字搜索相关代码示例</td></tr><tr><td>Key Promoter X</td><td>操作时快捷键方式建议</td><td>无</td></tr><tr><td>Translation</td><td>在线google/baidu/youdao翻译</td><td>command+ctrl+u(mac)/ shift+ctrl+y(win/linux)</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;​    &lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;插件名&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;IDE Features Trainer&lt;/td&gt;
+&lt;td&gt;在 IDE 中以
+      
+    
+    </summary>
+    
+    
+      <category term="IDEA 插件" scheme="http://dumboj.top/tags/IDEA-%E6%8F%92%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot中过滤器和拦截器</title>
+    <link href="http://dumboj.top/2020/04/29/springboot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%E5%92%8C%E6%8B%A6%E6%88%AA%E5%99%A8/"/>
+    <id>http://dumboj.top/2020/04/29/springboot中过滤器和拦截器/</id>
+    <published>2020-04-29T06:53:15.000Z</published>
+    <updated>2021-05-31T18:36:23.351Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h4><h6 id="1-定义过滤器"><a href="#1-定义过滤器" class="headerlink" title="1.定义过滤器"></a>1.定义过滤器</h6><pre><code class="java">package cn.dumboj.filter;import javax.servlet.*;import java.io.IOException;import java.util.Date;/** * @Description 过滤器执行耗时---接口实现 * @return * @Author dumboj * @Date 2020/4/29 11:11 * @Version 1.0 *///@Component//@WebFilter(urlPatterns = &quot;/*&quot;)public class AnnotationTimeFilter implements Filter &#123;    @Override    public void init(FilterConfig filterConfig) throws ServletException &#123;        System.out.println(&quot;filter init....&quot;);    &#125;    @Override    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;        System.out.println(&quot;start filter&quot;);        long startTime = new Date().getTime();        chain.doFilter(request,response);        System.out.println(&quot;过滤器耗时：&quot; + (new Date().getTime() - startTime));        System.out.println(&quot;过滤器执行完成&quot;);    &#125;    @Override    public void destroy() &#123;        System.out.println(&quot;销毁过滤器&quot;);    &#125;&#125;</code></pre><h6 id="2-过滤条件设置和过滤器注入方式一：注解注入（推荐）"><a href="#2-过滤条件设置和过滤器注入方式一：注解注入（推荐）" class="headerlink" title="2.过滤条件设置和过滤器注入方式一：注解注入（推荐）"></a>2.过滤条件设置和过滤器注入方式一：注解注入（推荐）</h6><p>​    </p><pre><code class="java">/**配置方式一：注解方式 *    &#123;@link  @Component&#125;  bean注入容器 *    &#123;@link  @WebFilter(urlPatterns = &quot;/*&quot;)&#125; *              urlPatterns 配置哪些请求可以进入过滤器，/*表示所有请求 */@Component@WebFilter(urlPatterns = &quot;/*&quot;)public class AnnotationTimeFilter implements Filter &#123;    ...    ...&#125;</code></pre><h6 id="3-过滤条件设置和过滤器注入方式二：过滤器注册"><a href="#3-过滤条件设置和过滤器注入方式二：过滤器注册" class="headerlink" title="3.过滤条件设置和过滤器注入方式二：过滤器注册"></a>3.过滤条件设置和过滤器注入方式二：过滤器注册</h6><pre><code class="java">package cn.dumboj.filter;import org.springframework.boot.web.servlet.FilterRegistrationBean;import org.springframework.context.annotation.Bean;import org.springframework.context.annotation.Configuration;import javax.servlet.Filter;import java.util.ArrayList;/** * @Description 过滤器质性耗时--注册器实现 * @return * @Author dumboj * @Date 2020/4/29 14:10 * @Version 1.0 */@Configurationpublic class RegistraTimeFilter &#123;    //筑造器注入    @Bean    public FilterRegistrationBean registrationBeanFilter()&#123;        FilterRegistrationBean&lt;Filter&gt; filterRegistrationBean = new FilterRegistrationBean&lt;&gt;();        AnnotationTimeFilter timeFilter = new AnnotationTimeFilter();        //设置具体过滤器实现        filterRegistrationBean.setFilter(timeFilter);        //设置过滤条件        ArrayList&lt;String&gt; urlList = new ArrayList&lt;&gt;();        urlList.add(&quot;/*&quot;);        filterRegistrationBean.setUrlPatterns(urlList);        return filterRegistrationBean;    &#125;&#125;</code></pre><h4 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h4><p>Springboot中定义拦截器，</p><h6 id="条件一："><a href="#条件一：" class="headerlink" title="条件一："></a>条件一：</h6><p>实现org.springframework.web.servlet.HandlerInterceptor接口</p><pre><code class="java">package cn.dumboj.interceptor;import org.springframework.stereotype.Component;import org.springframework.web.method.HandlerMethod;import org.springframework.web.servlet.HandlerInterceptor;import org.springframework.web.servlet.ModelAndView;import javax.servlet.http.HttpServletRequest;import javax.servlet.http.HttpServletResponse;import java.util.Date;/** * @Description 自定义拦截器 * @return * @Author dumboj * @Date 2020/4/29 19:15 * @Version 1.0 */@Componentpublic class CustomerInterceptor implements HandlerInterceptor  &#123;    @Override    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;        System.out.println(&quot;拦截预处理：&quot;);        request.setAttribute(&quot;startTime&quot;,new Date().getTime());        String beanName = (((HandlerMethod) handler)).getBean().getClass().getName();        String methodName = (((HandlerMethod) handler)).getMethod().getName();        System.out.println(&quot;类方法：&quot; + beanName + &quot;.&quot; + methodName);        return true;    &#125;    @Override    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception &#123;        System.out.println(&quot;开始处理拦截&quot;);        Long  startTime = (Long) request.getAttribute(&quot;startTime&quot;);        System.out.println(&quot;拦截器postHandle()执行完耗时：&quot;+(new Date().getTime()-startTime));    &#125;    @Override    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception &#123;        System.out.println(&quot;处理拦截后&quot;);        Long  startTime = (Long) request.getAttribute(&quot;startTime&quot;);        System.out.println(&quot;拦截器 afterCompletion ()执行完耗时：&quot;+(new Date().getTime()-startTime));        System.out.println(&quot;异常信息:&quot;+ex);    &#125;&#125;</code></pre><p>HandlerInterceptor接口中三个方法实现：</p><ul><li><p>​    preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)</p><p>​        <em>处理拦截之前执行</em></p></li><li><p>postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</p><p>​        <em>被拦截的方法没有抛出异常时才执行</em></p></li><li><p>afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</p><p>​        <em>无论被拦截方法是否抛出异常都会执行</em></p></li></ul><h6 id="条件二："><a href="#条件二：" class="headerlink" title="条件二："></a>条件二：</h6><ol><li><p>自定义拦截器类上加入@Component注解；</p></li><li><p>添加配置类,实现WebMvcConfigurer接口，并重写addInterceptors（），注册自定义过滤器</p><pre><code class="java">package cn.dumboj.interceptor;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;import org.springframework.context.annotation.Configuration;import org.springframework.web.servlet.config.annotation.InterceptorRegistry;import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;import javax.annotation.Resource;/** * @Description 注册拦截器 * @return * @Author dumboj * @Date 2020/4/30 16:14 * @Version 1.0 */@Configurationpublic class InterceptConfig implements WebMvcConfigurer &#123;    /**     * Add Spring MVC lifecycle interceptors for pre- and post-processing of     * controller method invocations and resource handler requests.     * Interceptors can be registered to apply to all requests or be limited     * to a subset of URL patterns.     *     * &#123;@link WebMvcConfigurerAdapter&#125;     *  as of 5.0 &#123;@link WebMvcConfigurer&#125; has default methods (made     *  * possible by a Java 8 baseline)     * @param registry     */    @Resource    private  CustomerInterceptor customerInterceptor;    @Override    public void addInterceptors(InterceptorRegistry registry) &#123;        registry.addInterceptor(customerInterceptor);    &#125;&#125;</code></pre><p>​    </p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;过滤器&quot;&gt;&lt;a href=&quot;#过滤器&quot; class=&quot;headerlink&quot; title=&quot;过滤器&quot;&gt;&lt;/a&gt;过滤器&lt;/h4&gt;&lt;h6 id=&quot;1-定义过滤器&quot;&gt;&lt;a href=&quot;#1-定义过滤器&quot; class=&quot;headerlink&quot; title=&quot;1.定义过滤器
+      
+    
+    </summary>
+    
+    
+      <category term="springboot" scheme="http://dumboj.top/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot异常处理</title>
+    <link href="http://dumboj.top/2020/04/28/springboot%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"/>
+    <id>http://dumboj.top/2020/04/28/springboot异常处理/</id>
+    <published>2020-04-28T10:31:07.000Z</published>
+    <updated>2021-05-31T18:36:23.351Z</updated>
+    
+    <content type="html"><![CDATA[<h6 id="1-默认异常处理"><a href="#1-默认异常处理" class="headerlink" title="1.默认异常处理"></a>1.默认异常处理</h6><p>​     Spring Boot对异常的处理有一套默认的机制：当应用中产生异常时，Spring Boot根据发送请求头中的<code>accept</code>是否包含<code>text/html</code>来分别返回不同的响应信息。当从浏览器地址栏中访问应用接口时，请求头中的<code>accept</code>便会包含<code>text/html</code>信息，产生异常时，Spring Boot通过<code>org.springframework.web.servlet.ModelAndView</code>对象来装载异常信息，并以HTML的格式返回；而当从客户端访问应用接口产生异常时（客户端访问时，请求头中的<code>accept</code>不包含<code>text/html</code>），Spring Boot则以JSON的格式返回异常信息。 </p><p>​    </p><pre><code class="java">package cn.dumboj.controller;import org.springframework.web.bind.annotation.GetMapping;import org.springframework.web.bind.annotation.PathVariable;import org.springframework.web.bind.annotation.RequestMapping;import org.springframework.web.bind.annotation.RestController;/** * @Description springboot默认异常信息处理 * @return * @Author dumboj * @Date 2020/4/28 10:37 * @Version 1.0 */@RestController@RequestMapping(&quot;exception&quot;)public class ExceptionController &#123;    @GetMapping(&quot;/demo/&#123;id&#125;&quot;)    public void get(@PathVariable String id) &#123;        throw new RuntimeException(&quot;user not exist&quot;);    &#125;&#125;</code></pre><blockquote><p>附：源码过程分析，查看org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController类</p></blockquote><p> <code>errorHtml</code>和<code>error</code>方法的请求地址和方法是一样的，唯一的区别就是<code>errorHtml</code>通过<code>produces = &#123;&quot;text/html&quot;&#125;</code>判断请求头的<code>accpet</code>属性中是否包含<code>text/html</code> </p><h6 id="2-自定义异常处理"><a href="#2-自定义异常处理" class="headerlink" title="2.自定义异常处理"></a>2.自定义异常处理</h6><ol><li><p>自定义异常处理类，继承RuntimeException</p><pre><code class="java">package cn.dumboj.customerexception;/** * @param * @Description 自定义异常类 * @return * @Author dumboj * @Date 2020/4/28 16:36 * @Version 1.0 */public class ExceptionDemo extends RuntimeException&#123;    private String id ;    public ExceptionDemo (String id)&#123;        super(&quot;this is a customer Exception&quot;);        this.id = id;    &#125;    public String getId() &#123;        return id;    &#125;    public void setId(String id) &#123;        this.id = id;    &#125;&#125;</code></pre></li><li><p>定义处理自定义异常的Handler</p><pre><code class="java">package cn.dumboj.customerexception;import org.springframework.http.HttpStatus;import org.springframework.web.bind.annotation.ControllerAdvice;import org.springframework.web.bind.annotation.ExceptionHandler;import org.springframework.web.bind.annotation.ResponseBody;import org.springframework.web.bind.annotation.ResponseStatus;import java.util.HashMap;import java.util.Map;/** * @param * @Description 自定义异常处理类 * @return * @Author dumboj * @Date 2020/4/28 16:41 * @Version 1.0 */@ControllerAdvicepublic class ExceptionControllerHandler &#123;    /*    * @Description 处理异常    * * @param    * @ExceptionHandler 指定要处理的异常类型    * @ResponseStatus   异常处理方法返回的HTTP状态码    * HttpStatus 异常类型枚举    * @Return    * @Author dumboj    * @Date 2020/4/28 16:45    **/    @ExceptionHandler(ExceptionDemo.class)    @ResponseBody    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)    public Map&lt;String ,Object&gt; handerExceptionDemo(ExceptionDemo demo)&#123;        Map&lt;String,Object&gt; map = new HashMap&lt;&gt;();        map.put(&quot;id&quot;,demo.getId());        map.put(&quot;message&quot;,demo.getMessage());        return map;    &#125;&#125;</code></pre></li><li><p>测试自定义异常的使用</p><pre><code class="java">package cn.dumboj.customerexception;import org.springframework.web.bind.annotation.PathVariable;import org.springframework.web.bind.annotation.RequestMapping;import org.springframework.web.bind.annotation.RestController;/** * @Description 测试自定义异常 * @return * @Author dumboj * @Date 2020/4/28 17:06 * @Version 1.0 */@RestController()public class ExceptionTestController &#123;    @RequestMapping(&quot;/customer/&#123;id&#125;&quot;)    public void testCustomerEx(@PathVariable String id)&#123;        throw new ExceptionDemo(id);    &#125;&#125;</code></pre></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h6 id=&quot;1-默认异常处理&quot;&gt;&lt;a href=&quot;#1-默认异常处理&quot; class=&quot;headerlink&quot; title=&quot;1.默认异常处理&quot;&gt;&lt;/a&gt;1.默认异常处理&lt;/h6&gt;&lt;p&gt;​     Spring Boot对异常的处理有一套默认的机制：当应用中产生异常时，Spri
+      
+    
+    </summary>
+    
+    
+      <category term="Springboot 异常" scheme="http://dumboj.top/tags/Springboot-%E5%BC%82%E5%B8%B8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Springboot 项目打包成war包和jar包</title>
+    <link href="http://dumboj.top/2020/04/26/Springboot-%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E6%88%90war%E5%8C%85%E5%92%8Cjar%E5%8C%85/"/>
+    <id>http://dumboj.top/2020/04/26/Springboot-项目打包成war包和jar包/</id>
+    <published>2020-04-26T11:41:18.000Z</published>
+    <updated>2021-05-31T18:36:23.346Z</updated>
+    
+    <content type="html"><![CDATA[<h6 id="1-pom-xml文件配置"><a href="#1-pom-xml文件配置" class="headerlink" title="1.pom.xml文件配置"></a>1.pom.xml文件配置</h6><table><thead><tr><th align="center">标签名称</th><th align="center">war</th><th align="center">jar</th></tr></thead><tbody><tr><td align="center"><package></package></td><td align="center"><package>war</package></td><td align="center"><package>jar</package></td></tr><tr><td align="center"><dependency></dependency></td><td align="center"><dependency>    <groupId>org.springframework.boot</groupId>    <artifactId>spring-boot-starter-tomcat</artifactId>    <scope>provided</scope></dependency></td><td align="center"><dependency>    <groupId>org.springframework.boot</groupId>    <artifactId>spring-boot-starter-tomcat</artifactId>    <scope>provided</scope></dependency></td></tr><tr><td align="center"><build></build></td><td align="center"><build> <finalName>项目名（类似于server.context-path=****）</finalName></build></td><td align="center"><build>         <plugins>             <plugin>                 <groupId>org.springframework.boot</groupId>                 <artifactId>spring-boot-maven-plugin</artifactId>                 <configuration>                     <mainClass>启动类名称</mainClass>                 </configuration>             </plugin>         </plugins>     </build></td></tr></tbody></table><h6 id="2-添加启动类ServletInitializer"><a href="#2-添加启动类ServletInitializer" class="headerlink" title="2.添加启动类ServletInitializer"></a>2.添加启动类ServletInitializer</h6><pre><code class="java">/** * @param * @Description 添加启动类ServletInitializer * @return * @Author dumboj * @Date 2020/4/26 19:15 * @Version 1.0 */public class ServletInitializer extends SpringBootServletInitializer &#123;    /**     * Configure the application. Normally all you would need to do is to add sources     * (e.g. config classes) because other settings have sensible defaults. You might     * choose (for instance) to add default command line arguments, or set an active     * Spring profile.     *     * @param builder a builder for the application context     * @return the application builder     * @see SpringApplicationBuilder     */    @Override    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;        return builder.sources(SpringbootDevtoolsApplication.class);    &#125;&#125;</code></pre><h6 id="3-打包"><a href="#3-打包" class="headerlink" title="3.打包"></a>3.打包</h6><p>idea中maven下对应项目 Lifecycle中 clean    package,则可在target目录下生产相应的jar包和war包</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h6 id=&quot;1-pom-xml文件配置&quot;&gt;&lt;a href=&quot;#1-pom-xml文件配置&quot; class=&quot;headerlink&quot; title=&quot;1.pom.xml文件配置&quot;&gt;&lt;/a&gt;1.pom.xml文件配置&lt;/h6&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th alig
+      
+    
+    </summary>
+    
+    
+      <category term="springboot 打包" scheme="http://dumboj.top/tags/springboot-%E6%89%93%E5%8C%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java 警告抑制</title>
+    <link href="http://dumboj.top/2020/04/21/Java-%E8%AD%A6%E5%91%8A%E6%8A%91%E5%88%B6/"/>
+    <id>http://dumboj.top/2020/04/21/Java-警告抑制/</id>
+    <published>2020-04-21T08:39:36.000Z</published>
+    <updated>2021-05-31T18:36:23.343Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="SuppressWarnings-注解目标为类、字段、函数、函数入参、构造函数和函数的局部变量。"><a href="#SuppressWarnings-注解目标为类、字段、函数、函数入参、构造函数和函数的局部变量。" class="headerlink" title="@SuppressWarnings 注解目标为类、字段、函数、函数入参、构造函数和函数的局部变量。"></a>@SuppressWarnings 注解目标为类、字段、函数、函数入参、构造函数和函数的局部变量。</h5><h5 id="而家建议注解应声明在最接近警告发生的位置。"><a href="#而家建议注解应声明在最接近警告发生的位置。" class="headerlink" title="而家建议注解应声明在最接近警告发生的位置。"></a>而家建议注解应声明在最接近警告发生的位置。</h5><table><thead><tr><th><strong>关键字</strong></th><th><strong>用途</strong></th></tr></thead><tbody><tr><td>all</td><td>to suppress all warnings</td></tr><tr><td>boxing</td><td>to suppress warnings relative to boxing/unboxing operations</td></tr><tr><td>cast</td><td>to suppress warnings relative to cast operations</td></tr><tr><td>dep-ann</td><td>to suppress warnings relative to deprecated annotation</td></tr><tr><td>deprecation</td><td>to suppress warnings relative to deprecation</td></tr><tr><td>fallthrough</td><td>to suppress warnings relative to missing breaks in switch statements</td></tr><tr><td>finally</td><td>to suppress warnings relative to finally block that don’t return</td></tr><tr><td>hiding</td><td>to suppress warnings relative to locals that hide variable</td></tr><tr><td>incomplete-switch</td><td>to suppress warnings relative to missing entries in a switch statement (enum case)</td></tr><tr><td>nls</td><td>to suppress warnings relative to non-nls string literals</td></tr><tr><td>null</td><td>to suppress warnings relative to null analysis</td></tr><tr><td>rawtypes</td><td>to suppress warnings relative to un-specific types when using generics on class params</td></tr><tr><td>restriction</td><td>to suppress warnings relative to usage of discouraged or forbidden references</td></tr><tr><td>serial</td><td>to suppress warnings relative to missing serialVersionUID field for a serializable class</td></tr><tr><td>static-access</td><td>o suppress warnings relative to incorrect static access</td></tr><tr><td>synthetic-access</td><td>to suppress warnings relative to unoptimized access from inner classes</td></tr><tr><td>unchecked</td><td>to suppress warnings relative to unchecked operations</td></tr><tr><td>unqualified-field-access</td><td>to suppress warnings relative to field access unqualified</td></tr><tr><td>unused</td><td>to suppress warnings relative to unused code</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h5 id=&quot;SuppressWarnings-注解目标为类、字段、函数、函数入参、构造函数和函数的局部变量。&quot;&gt;&lt;a href=&quot;#SuppressWarnings-注解目标为类、字段、函数、函数入参、构造函数和函数的局部变量。&quot; class=&quot;headerlink&quot; tit
+      
+    
+    </summary>
+    
+    
+      <category term="SuppressWarnings" scheme="http://dumboj.top/tags/SuppressWarnings/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ES单元测试问题小记1</title>
+    <link href="http://dumboj.top/2020/04/02/ES%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E9%97%AE%E9%A2%98%E5%B0%8F%E8%AE%B01/"/>
+    <id>http://dumboj.top/2020/04/02/ES单元测试问题小记1/</id>
+    <published>2020-04-02T12:25:24.000Z</published>
+    <updated>2021-05-31T18:36:23.341Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h5><h5 id="Window-搭建完Elasticseach-环境，使用localhost-本机都能够正常访问Elasticsearch-环境，使用Springboot-集成elasticsearch-提示如下错误信息：NoNodeAvailableException-None-of-the-configured-nodes-are-available"><a href="#Window-搭建完Elasticseach-环境，使用localhost-本机都能够正常访问Elasticsearch-环境，使用Springboot-集成elasticsearch-提示如下错误信息：NoNodeAvailableException-None-of-the-configured-nodes-are-available" class="headerlink" title="Window 搭建完Elasticseach 环境，使用localhost 本机都能够正常访问Elasticsearch 环境，使用Springboot +集成elasticsearch 提示如下错误信息：NoNodeAvailableException[None of the configured nodes are available"></a>Window 搭建完Elasticseach 环境，使用localhost 本机都能够正常访问Elasticsearch 环境，使用Springboot +集成elasticsearch 提示如下错误信息：NoNodeAvailableException[None of the configured nodes are available</h5><h5 id="1-相关代码："><a href="#1-相关代码：" class="headerlink" title="1.相关代码："></a>1.相关代码：</h5><h6 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h6><pre><code class="java">package cn.dumboj.springbootes;import cn.dumboj.springbootes.entity.ES.ESCoreDict;import cn.dumboj.springbootes.repository.ES.ESCoreDictRepository;import org.junit.jupiter.api.Test;import org.junit.runner.RunWith;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.boot.test.context.SpringBootTest;import org.springframework.test.context.junit4.SpringRunner;import javax.swing.*;import java.util.Iterator;import java.util.List;@RunWith(SpringRunner.class)@SpringBootTestclass SpringbootEsApplicationTests &#123;    @Autowired    ESCoreDictRepository esCoreDictRepository;        @Test    public void testEs()&#123;        Iterable&lt;ESCoreDict&gt; all = esCoreDictRepository.findAll();        Iterator&lt;ESCoreDict&gt; iterator = all.iterator();        if (iterator.hasNext())            System.out.println(&quot;-----------&quot;+iterator.next().getName());    &#125;&#125;</code></pre><h6 id="ESRepository代码"><a href="#ESRepository代码" class="headerlink" title="ESRepository代码"></a>ESRepository代码</h6><pre><code class="java">public interface ESCoreDictRepository extends ElasticsearchRepository&lt;ESCoreDict,Integer&gt; &#123;&#125;</code></pre><h6 id="ES-JPA-properties项目文件配置"><a href="#ES-JPA-properties项目文件配置" class="headerlink" title="ES+JPA properties项目文件配置"></a>ES+JPA properties项目文件配置</h6><pre><code class="properties">#JPA配置相关spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect#ESspring.data.elasticsearch.cluster-nodes=127.0.0.1:9300spring.data.elasticsearch.cluster-name=my-application</code></pre><h5 id="2-单元测试"><a href="#2-单元测试" class="headerlink" title="2.单元测试"></a>2.单元测试</h5><p>​    ES6.3.2  windows X64  本地环境启动并 运行单元测试。</p><h6 id="Exception-message-配置文件中没有可以使用的节点"><a href="#Exception-message-配置文件中没有可以使用的节点" class="headerlink" title="Exception message:配置文件中没有可以使用的节点"></a>Exception message:配置文件中没有可以使用的节点</h6><p><img src="%5Bhttps://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/ES%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E9%94%99%E8%AF%AF%E5%B0%8F%E8%AE%B01.png%5D(https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/ES%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E9%94%99%E8%AF%AF%E5%B0%8F%E8%AE%B01.png)"></p><h5 id="3-解决方式"><a href="#3-解决方式" class="headerlink" title="3.解决方式"></a>3.解决方式</h5><p>打开并修改本地ES安装目录下/config/elasticsearch.yml文件参数（默认注释）</p><table><thead><tr><th>参数</th><th>配置</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td>cluster.name:</td><td>my-application</td></tr><tr><td>network.host:</td><td>127.0.0.1</td></tr><tr><td>http.port:</td><td>9200</td></tr></tbody></table><h5 id="4-重启ES服务，单元测试启动成功。"><a href="#4-重启ES服务，单元测试启动成功。" class="headerlink" title="4.重启ES服务，单元测试启动成功。"></a>4.重启ES服务，单元测试启动成功。</h5>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h5 id=&quot;问题描述：&quot;&gt;&lt;a href=&quot;#问题描述：&quot; class=&quot;headerlink&quot; title=&quot;问题描述：&quot;&gt;&lt;/a&gt;问题描述：&lt;/h5&gt;&lt;h5 id=&quot;Window-搭建完Elasticseach-环境，使用localhost-本机都能够正常访问Elasti
+      
+    
+    </summary>
+    
+    
+      <category term="ES6.3.2" scheme="http://dumboj.top/tags/ES6-3-2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>阿里云服务器RedisCluste搭建</title>
+    <link href="http://dumboj.top/2020/03/27/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8RedisCluste%E6%90%AD%E5%BB%BA/"/>
+    <id>http://dumboj.top/2020/03/27/阿里云服务器RedisCluste搭建/</id>
+    <published>2020-03-27T02:34:06.000Z</published>
+    <updated>2021-05-31T18:36:23.354Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="-centos -RedisCluster -阿里云" scheme="http://dumboj.top/categories/centos-RedisCluster-%E9%98%BF%E9%87%8C%E4%BA%91/"/>
+    
+    
+      <category term="-RedisCluster" scheme="http://dumboj.top/tags/RedisCluster/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux服务器单机Redis安装配置</title>
+    <link href="http://dumboj.top/2020/03/10/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8D%95%E6%9C%BARedis%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/"/>
+    <id>http://dumboj.top/2020/03/10/Linux服务器单机Redis安装配置/</id>
+    <published>2020-03-10T02:10:34.000Z</published>
+    <updated>2021-05-31T18:36:23.344Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>backing day </title>
+    <link href="http://dumboj.top/2020/03/09/backing-day/"/>
+    <id>http://dumboj.top/2020/03/09/backing-day/</id>
+    <published>2020-03-09T06:34:00.000Z</published>
+    <updated>2021-05-31T18:36:23.346Z</updated>
+    
+    <content type="html"><![CDATA[<p>​    嘘~</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;​    嘘~&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>elaticsearch学习一</title>
+    <link href="http://dumboj.top/2020/01/13/elaticsearch/"/>
+    <id>http://dumboj.top/2020/01/13/elaticsearch/</id>
+    <published>2020-01-13T07:33:19.000Z</published>
+    <updated>2021-05-31T18:36:23.348Z</updated>
+    
+    <content type="html"><![CDATA[<h5 id="一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题："><a href="#一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题：" class="headerlink" title="一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题："></a>一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题：</h5><ol><li>数据库选型</li><li>单点故障问题</li><li>数据安全性问题</li><li>检索难题</li><li>统计、分析数据问题</li></ol><h5 id="二、关系型数据库解决方案"><a href="#二、关系型数据库解决方案" class="headerlink" title="二、关系型数据库解决方案"></a>二、关系型数据库解决方案</h5><ol><li> 通过主从备份解决数据安全性问题；</li><li>通过数据库代理中间件心跳监测，解决单点故障问题；</li><li> 通过代理中间件将查询语句分发到各个slave节点进行查询，并汇总结果 </li></ol><h5 id="三、非关系型数据库解决方案"><a href="#三、非关系型数据库解决方案" class="headerlink" title="三、非关系型数据库解决方案"></a>三、非关系型数据库解决方案</h5><ol><li><p> 通过副本备份保证数据安全性； </p></li><li><p> 通过节点竞选机制解决单点问题； </p></li><li><p> 先从配置库检索分片信息，然后将请求分发到各个节点，最后由路由节点合并汇总结果  </p></li></ol><p>   ps:将数据全部放于内存中，PB级别数据分配到单台机器，满内存使用情况下，节点数太大，再考虑数据备份，节点数更大，不现实。</p><h5 id="四、Elasticsearch"><a href="#四、Elasticsearch" class="headerlink" title="四、Elasticsearch"></a>四、Elasticsearch</h5><p>在传统数据库存储的数据安全性问题，大流量下，为解决上述关系和非关系型数据库的问题，引出ES。</p><p>解决方式：</p><ol><li> 存储数据时按有序存储；  </li><li> 将数据和索引分离； </li><li> 压缩数据；  </li></ol><h5 id="五、ES基础"><a href="#五、ES基础" class="headerlink" title="五、ES基础"></a>五、ES基础</h5><ul><li><h6 id="定义：-是一个开源的高扩展的分布式全文检索引擎"><a href="#定义：-是一个开源的高扩展的分布式全文检索引擎" class="headerlink" title="定义： 是一个开源的高扩展的分布式全文检索引擎"></a>定义： 是一个开源的高扩展的分布式全文检索引擎</h6><ol><li>近乎实时的存储、检索数据； </li></ol><p>​    2. 扩展性好，可以扩展服务器，处理PB级别的数据；</p></li><li><ol><li></li></ol></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h5 id=&quot;一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题：&quot;&gt;&lt;a href=&quot;#一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题：&quot; class=&quot;headerlink&quot; title=&quot;一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>git push RPC401 curl22 error</title>
+    <link href="http://dumboj.top/2019/12/19/git-push-RPC401-curl22-error/"/>
+    <id>http://dumboj.top/2019/12/19/git-push-RPC401-curl22-error/</id>
+    <published>2019-12-19T12:11:20.000Z</published>
+    <updated>2021-05-31T18:36:23.348Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/gitRPCError.png" alt="git push error"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/gitRPCError.png&quot; alt=&quot;git push error&quot;&gt;&lt;/
+      
+    
+    </summary>
+    
+      <category term="-git RPC 401" scheme="http://dumboj.top/categories/git-RPC-401/"/>
+    
+    
+      <category term="-git push erroe" scheme="http://dumboj.top/tags/git-push-erroe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FastJson字符串转换Map的六种方法</title>
+    <link href="http://dumboj.top/2019/11/19/FastJson%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2Map%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E6%B3%95/"/>
+    <id>http://dumboj.top/2019/11/19/FastJson字符串转换Map的五种方法/</id>
+    <published>2019-11-19T02:32:44.000Z</published>
+    <updated>2021-05-31T18:36:23.342Z</updated>
+    
+    <content type="html"><![CDATA[<p>import com.alibaba.fastjson.JSON;<br>import com.alibaba.fastjson.JSONObject;<br>import java.util.Map;  </p><p>/** </p><ul><li><p>JSON字符串自动转换 </p></li><li></li><li><p>/<br>public class JsonToMapTest01 {  </p><p>  public static void main(String[] args){  </p><pre><code class="java">String str = &quot;&#123;\&quot;0\&quot;:\&quot;zhangsan\&quot;,\&quot;1\&quot;:\&quot;lisi\&quot;,\&quot;2\&quot;:\&quot;wangwu\&quot;,\&quot;3\&quot;:\&quot;maliu\&quot;&#125;&quot;;  //第一种方式  Map maps = (Map)JSON.parse(str);  System.out.println(&quot;这个是用JSON类来解析JSON字符串!!!&quot;);  for (Object map : maps.entrySet())&#123;      System.out.println(((Map.Entry)map).getKey()+&quot;     &quot; + ((Map.Entry)map).getValue());  &#125;  //第二种方式  Map mapTypes = JSON.parseObject(str);  System.out.println(&quot;这个是用JSON类的parseObject来解析JSON字符串!!!&quot;);  for (Object obj : mapTypes.keySet())&#123;      System.out.println(&quot;key为：&quot;+obj+&quot;值为：&quot;+mapTypes.get(obj));  &#125;  //第三种方式  Map mapType = JSON.parseObject(str,Map.class);  System.out.println(&quot;这个是用JSON类,指定解析类型，来解析JSON字符串!!!&quot;);  for (Object obj : mapType.keySet())&#123;      System.out.println(&quot;key为：&quot;+obj+&quot;值为：&quot;+mapType.get(obj));  &#125;  //第四种方式  /**  * JSONObject是Map接口的一个实现类  */  Map json = (Map) JSONObject.parse(str);  System.out.println(&quot;这个是用JSONObject类的parse方法来解析JSON字符串!!!&quot;);  for (Object map : json.entrySet())&#123;      System.out.println(((Map.Entry)map).getKey()+&quot;  &quot;+((Map.Entry)map).getValue());  &#125;  //第五种方式  /**  * JSONObject是Map接口的一个实现类  */  JSONObject jsonObject = JSONObject.parseObject(str);  System.out.println(&quot;这个是用JSONObject的parseObject方法来解析JSON字符串!!!&quot;);  for (Object map : json.entrySet())&#123;      System.out.println(((Map.Entry)map).getKey()+&quot;  &quot;+((Map.Entry)map).getValue());  &#125;  //第六种方式  /**  * JSONObject是Map接口的一个实现类  */  Map mapObj = JSONObject.parseObject(str,Map.class);  System.out.println(&quot;这个是用JSONObject的parseObject方法并执行返回类型来解析JSON字符串!!!&quot;);  for (Object map: json.entrySet())&#123;      System.out.println(((Map.Entry)map).getKey()+&quot;  &quot;+((Map.Entry)map).getValue());  &#125;  String strArr = &quot;&#123;&#123;\"0\":\"zhangsan\",\"1\":\"lisi\",\"2\":\"wangwu\",\"3\":\"maliu\"&#125;," +              "&#123;\"00\":\"zhangsan\",\"11\":\"lisi\",\"22\":\"wangwu\",\"33\":\"maliu\"&#125;&#125;&quot;;           // JSONArray.parse()     System.out.println(json);  &#125; &#125;</code></pre><p>```</p></li></ul><p> ```</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;import com.alibaba.fastjson.JSON;&lt;br&gt;import com.alibaba.fastjson.JSONObject;&lt;br&gt;import java.util.Map;  &lt;/p&gt;
+&lt;p&gt;/** &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;JSON字
+      
+    
+    </summary>
+    
+      <category term="-fastjson -map" scheme="http://dumboj.top/categories/fastjson-map/"/>
+    
+    
+      <category term="-fastjson" scheme="http://dumboj.top/tags/fastjson/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>接口文档书写模板</title>
+    <link href="http://dumboj.top/2019/11/01/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E4%B9%A6%E5%86%99%E6%A8%A1%E6%9D%BF/"/>
+    <id>http://dumboj.top/2019/11/01/接口文档书写模板/</id>
+    <published>2019-11-01T09:54:04.000Z</published>
+    <updated>2021-05-31T18:36:23.353Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="用户调查模块信息查询"><a href="#用户调查模块信息查询" class="headerlink" title="用户调查模块信息查询"></a>用户调查模块信息查询</h1><h2 id="请求地址"><a href="#请求地址" class="headerlink" title="请求地址"></a>请求地址</h2><p><code>userSurvey/getMessage?memberID=&#123;me&#125;</code></p><h2 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h2><p><code>post</code></p><h2 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h2><table><thead><tr><th>名称</th><th>类型</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>memberId</td><td>string</td><td>true</td><td>用户ID</td></tr></tbody></table><h2 id="请求内容示例"><a href="#请求内容示例" class="headerlink" title="请求内容示例"></a>请求内容示例</h2><p>无</p><h2 id="返回参数"><a href="#返回参数" class="headerlink" title="返回参数"></a>返回参数</h2><table><thead><tr><th>名称</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>code</td><td>string</td><td>状态码</td></tr><tr><td>message</td><td>string</td><td>返回说明</td></tr><tr><td>orderCode</td><td>string</td><td>序号</td></tr><tr><td>questionNaire</td><td>string</td><td>调查表名称</td></tr><tr><td>sTime</td><td>string</td><td>有效期起</td></tr><tr><td>endTime</td><td>string</td><td>有效期止</td></tr><tr><td>status</td><td>string</td><td>状态</td></tr></tbody></table><h2 id="返回内容示例"><a href="#返回内容示例" class="headerlink" title="返回内容示例"></a>返回内容示例</h2><h3 id="查询成功"><a href="#查询成功" class="headerlink" title="查询成功"></a>查询成功</h3><pre><code class="json">&#123;    &quot;code&quot;: &quot;0000&quot;,    &quot;message&quot;: &quot;查询成功&quot;,    &quot;Result&quot;: [        &#123;            &quot;orderCode&quot;: &quot;1&quot;,            &quot;questionNaire&quot;: &quot;2018年9月份标志业务满意度调查&quot;,            &quot;sTime&quot;: &quot;2018-09-27&quot;,            &quot;endTime&quot;: &quot;2018-10-15&quot;,            &quot;status&quot;: &quot;0&quot;        &#125;,        &#123;            &quot;orderCode&quot;: &quot;2&quot;,            &quot;questionNaire&quot;: &quot;2018年9月份订制业务满意度调查&quot;,            &quot;sTime&quot;: &quot;2018-09-27&quot;,            &quot;endTime&quot;: &quot;2018-10-15&quot;,            &quot;status&quot;: &quot;20&quot;        &#125;    ]&#125;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;用户调查模块信息查询&quot;&gt;&lt;a href=&quot;#用户调查模块信息查询&quot; class=&quot;headerlink&quot; title=&quot;用户调查模块信息查询&quot;&gt;&lt;/a&gt;用户调查模块信息查询&lt;/h1&gt;&lt;h2 id=&quot;请求地址&quot;&gt;&lt;a href=&quot;#请求地址&quot; class=&quot;head
+      
+    
+    </summary>
+    
+      <category term="-接口文档模板" scheme="http://dumboj.top/categories/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E6%A8%A1%E6%9D%BF/"/>
+    
+    
+      <category term="-接口文档示例" scheme="http://dumboj.top/tags/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E7%A4%BA%E4%BE%8B/"/>
+    
+  </entry>
+  
+</feed>

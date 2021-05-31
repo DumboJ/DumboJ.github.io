@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nginx_高性能WEB服务器 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,Nginx   高性能web服务器基础1.Nginx介绍2.Nginx安装启动安装包下载以Linux版本为例：​    1.ssh登录阿里云CentOS7服务器
+​    2.下载安装包
+wget ,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Nginx_高性能WEB服务器</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Nginx_高性能WEB服务器</h1>
+        <div class="stuff">
+            <span>八月 17, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Nginx-Web%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">-Nginx -Web服务器</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h3 id="Nginx-高性能web服务器"><a href="#Nginx-高性能web服务器" class="headerlink" title="Nginx   高性能web服务器"></a>Nginx   高性能web服务器</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><h5 id="1-Nginx介绍"><a href="#1-Nginx介绍" class="headerlink" title="1.Nginx介绍"></a>1.Nginx介绍</h5><h5 id="2-Nginx安装启动"><a href="#2-Nginx安装启动" class="headerlink" title="2.Nginx安装启动"></a>2.Nginx安装启动</h5><h6 id="安装包下载"><a href="#安装包下载" class="headerlink" title="安装包下载"></a>安装包下载</h6><h6 id="以Linux版本为例："><a href="#以Linux版本为例：" class="headerlink" title="以Linux版本为例："></a>以Linux版本为例：</h6><p>​    1.ssh登录阿里云CentOS7服务器</p>
+<p>​    2.下载安装包</p>
+<pre><code>wget http://nginx.org/download/nginx-1.16.1.tar.gz
+</code></pre>
+<p>​    3.解压文件</p>
+<pre><code>tar -zxvf nginx-1.16.1.tar.gz 
+</code></pre>
+<p>​    4.进入文件目录，编译安装 <!--编译安装时可能遇到缺少库的情况，后面说明--></p>
+<pre><code>./configure --prefix=/usr/local/projinstall/nginx
+</code></pre>
+<p>​    我安装时遇到的情景：</p>
+<ul>
+<li><pre><code>./configure: error: the HTTP gzip module requires the zlib library.
+You can either disable the module by using --without-http_gzip_module
+option, or install the zlib library into the system, or build the zlib library
+statically from the source with nginx by using --with-zlib=&lt;path&gt; option.
+系统中缺少zlib库
+
+解决--
+yum install -y zlib
+yum install -y zlib-devel
+</code></pre>
+</li>
+<li><pre><code>error while loading shared libraries: libpcre.so.0: cannot open shared object file: No such file or directory
+系统中缺少pcre库
+
+解决--
+yum install -y pcre
+yum install -y pcre-devel
+</code></pre>
+<p>编译无错误信息后安装</p>
+<pre><code>make &amp;&amp; make install
+</code></pre>
+<p>5.启动Nginx</p>
+<pre><code>cd /usr/local/projinstall/nginx
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>conf</td>
+<td>配置文件</td>
+</tr>
+<tr>
+<td>html</td>
+<td>网页文件</td>
+</tr>
+<tr>
+<td>logs</td>
+<td>日志文件</td>
+</tr>
+<tr>
+<td>sbin</td>
+<td>只要二进制程序</td>
+</tr>
+</tbody></table>
+<pre><code>cd ./sbin
+ls
+./nginx        启动成功
+</code></pre>
+<p>​    注：若有端口占用情况，启动nginx服务器失败</p>
+<pre><code>netstat -ant|p            --查看占用端口情况
+pkill -9  pid            --解除端口占用
+./nginx                    --再次启动服务
+</code></pre>
+<h5 id="Nginx信号控制"><a href="#Nginx信号控制" class="headerlink" title="Nginx信号控制"></a>Nginx信号控制</h5></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>信号参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TERM, INT</td>
+<td>Quick shutdown</td>
+</tr>
+<tr>
+<td>QUIT</td>
+<td>Graceful shutdown</td>
+</tr>
+<tr>
+<td>KILL</td>
+<td>Halts a stubborn process</td>
+</tr>
+<tr>
+<td>HUP</td>
+<td>Configuration reload  –重新加载重读配置文件、                                                                                                                              Start the new worker processes with a new configuration、                                                         Gracefully shutdown the old worker processes</td>
+</tr>
+<tr>
+<td>USR1</td>
+<td>Reopen the log files–日志切割：kill -USER1 pid  ，（重命名日志文件，再新建原名日志）</td>
+</tr>
+<tr>
+<td>USR2</td>
+<td>Upgrade Executable on the fly       平滑的升级，当旧进程请求完毕则关闭</td>
+</tr>
+<tr>
+<td>WINCH</td>
+<td>Gracefully shutdown the worker processes</td>
+</tr>
+</tbody></table>
+<h5 id="Nginx命令控制："><a href="#Nginx命令控制：" class="headerlink" title="Nginx命令控制："></a>Nginx命令控制：</h5><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>./sbin/nginx  -s  reload</td>
+<td>配合文件修改重启加载</td>
+</tr>
+<tr>
+<td>./sbin/nginx   -s  stop</td>
+<td>结束进程</td>
+</tr>
+<tr>
+<td>./sbin/nginx</td>
+<td>启动nginx</td>
+</tr>
+<tr>
+<td>./sbin/nginx  -t</td>
+<td>确认修改的配置文件是否正确</td>
+</tr>
+<tr>
+<td>./sbin/nginx  -s  reopen</td>
+<td>重新写入新的日志文件</td>
+</tr>
+</tbody></table>
+<p>​    </p>
+<h4 id="应用部分"><a href="#应用部分" class="headerlink" title="应用部分"></a>应用部分</h4><h5 id="1-Nginx虚拟主机配置"><a href="#1-Nginx虚拟主机配置" class="headerlink" title="1.Nginx虚拟主机配置"></a>1.Nginx虚拟主机配置</h5><pre><code>user       www www;  ## Default: nobody
+worker_processes  5;  ## Default: 1            工作子进程。一般为CPU*核心数，太大争夺CPU
+error_log  logs/error.log;
+pid        logs/nginx.pid;
+worker_rlimit_nofile 8192;
+
+events &#123;
+    #evert区，配置nginx连接的特性，一个work同时允许多少个连接
+  worker_connections  4096;  ## Default: 1024        子进程最大允许连4096个连接    
+&#125;
+
+#配置http服务器
+http &#123;
+  include    conf/mime.types;
+  include    /etc/nginx/proxy.conf;
+  include    /etc/nginx/fastcgi.conf;
+  index    index.html index.htm index.php;
+
+  default_type application/octet-stream;
+  log_format   main &#39;$remote_addr - $remote_user [$time_local]  $status &#39;
+    &#39;&quot;$request&quot; $body_bytes_sent &quot;$http_referer&quot; &#39;
+    &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+  access_log   logs/access.log  main;
+  sendfile     on;
+  tcp_nopush   on;
+  server_names_hash_bucket_size 128; # this seems to be required for some vhosts
+
+  server &#123; # php/fastcgi
+    listen       80;
+    server_name  domain1.com www.domain1.com;
+    access_log   logs/domain1.access.log  main;
+    root         html;
+
+    location ~ \.php$ &#123;
+      fastcgi_pass   127.0.0.1:1025;
+    &#125;
+  &#125;
+
+  server &#123; # simple reverse-proxy
+    listen       80;
+    server_name  domain2.com www.domain2.com;
+    access_log   logs/domain2.access.log  main;
+
+    # serve static files
+    location ~ ^/(images|javascript|js|css|flash|media|static)/  &#123;
+      root    /var/www/virtual/big.server.com/htdocs;
+      expires 30d;
+    &#125;
+
+    # pass requests for dynamic content to rails/turbogears/zope, et al
+    location / &#123;
+      proxy_pass      http://127.0.0.1:8080;
+    &#125;
+    
+   server&#123;
+       listen        80;
+       server_name    dumboj.cn
+   &#125;
+  &#125;
+
+  upstream big_server_com &#123;
+    server 127.0.0.3:8000 weight=5;
+    server 127.0.0.3:8001 weight=5;
+    server 192.168.0.1:8000;
+    server 192.168.0.1:8001;
+  &#125;
+
+  server &#123; # simple load balancing
+    listen          80;
+    server_name     big.server.com;
+    access_log      logs/big.server.access.log main;
+
+    location / &#123;
+      proxy_pass      http://big_server_com;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h5 id="2-Nginx日志切割"><a href="#2-Nginx日志切割" class="headerlink" title="2.Nginx日志切割"></a>2.Nginx日志切割</h5><p>​    Nginx的配置文件中，server{access_log   logs/domain2.access.log  main;}</p>
+<p>​    Nginx允许每个不同的虚拟主机server写入到不同的log文件</p>
+<h5 id="3-Nginx与gzip设置"><a href="#3-Nginx与gzip设置" class="headerlink" title="3.Nginx与gzip设置"></a>3.Nginx与gzip设置</h5>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

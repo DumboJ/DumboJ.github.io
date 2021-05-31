@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>springboot异常处理 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,1.默认异常处理​     Spring Boot对异常的处理有一套默认的机制：当应用中产生异常时，Spring Boot根据发送请求头中的accept是否包含text/html来分别返回不同的响应,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">springboot异常处理</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">springboot异常处理</h1>
+        <div class="stuff">
+            <span>四月 28, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Springboot-%E5%BC%82%E5%B8%B8/" rel="tag">Springboot 异常</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h6 id="1-默认异常处理"><a href="#1-默认异常处理" class="headerlink" title="1.默认异常处理"></a>1.默认异常处理</h6><p>​     Spring Boot对异常的处理有一套默认的机制：当应用中产生异常时，Spring Boot根据发送请求头中的<code>accept</code>是否包含<code>text/html</code>来分别返回不同的响应信息。当从浏览器地址栏中访问应用接口时，请求头中的<code>accept</code>便会包含<code>text/html</code>信息，产生异常时，Spring Boot通过<code>org.springframework.web.servlet.ModelAndView</code>对象来装载异常信息，并以HTML的格式返回；而当从客户端访问应用接口产生异常时（客户端访问时，请求头中的<code>accept</code>不包含<code>text/html</code>），Spring Boot则以JSON的格式返回异常信息。 </p>
+<p>​    </p>
+<pre><code class="java">package cn.dumboj.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @Description springboot默认异常信息处理
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/28 10:37
+ * @Version 1.0
+ */
+@RestController
+@RequestMapping(&quot;exception&quot;)
+public class ExceptionController &#123;
+    @GetMapping(&quot;/demo/&#123;id&#125;&quot;)
+    public void get(@PathVariable String id) &#123;
+        throw new RuntimeException(&quot;user not exist&quot;);
+    &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>附：源码过程分析，查看org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController类</p>
+</blockquote>
+<p> <code>errorHtml</code>和<code>error</code>方法的请求地址和方法是一样的，唯一的区别就是<code>errorHtml</code>通过<code>produces = &#123;&quot;text/html&quot;&#125;</code>判断请求头的<code>accpet</code>属性中是否包含<code>text/html</code> </p>
+<h6 id="2-自定义异常处理"><a href="#2-自定义异常处理" class="headerlink" title="2.自定义异常处理"></a>2.自定义异常处理</h6><ol>
+<li><p>自定义异常处理类，继承RuntimeException</p>
+<pre><code class="java">package cn.dumboj.customerexception;
+
+/**
+ * @param
+ * @Description 自定义异常类
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/28 16:36
+ * @Version 1.0
+ */
+public class ExceptionDemo extends RuntimeException&#123;
+    private String id ;
+    public ExceptionDemo (String id)&#123;
+        super(&quot;this is a customer Exception&quot;);
+        this.id = id;
+    &#125;
+
+    public String getId() &#123;
+        return id;
+    &#125;
+
+    public void setId(String id) &#123;
+        this.id = id;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>定义处理自定义异常的Handler</p>
+<pre><code class="java">package cn.dumboj.customerexception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @param
+ * @Description 自定义异常处理类
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/28 16:41
+ * @Version 1.0
+ */
+@ControllerAdvice
+public class ExceptionControllerHandler &#123;
+    /*
+    * @Description 处理异常
+    * * @param
+    * @ExceptionHandler 指定要处理的异常类型
+    * @ResponseStatus   异常处理方法返回的HTTP状态码
+    * HttpStatus 异常类型枚举
+    * @Return
+    * @Author dumboj
+    * @Date 2020/4/28 16:45
+    **/
+
+    @ExceptionHandler(ExceptionDemo.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map&lt;String ,Object&gt; handerExceptionDemo(ExceptionDemo demo)&#123;
+        Map&lt;String,Object&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;id&quot;,demo.getId());
+        map.put(&quot;message&quot;,demo.getMessage());
+        return map;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>测试自定义异常的使用</p>
+<pre><code class="java">package cn.dumboj.customerexception;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @Description 测试自定义异常
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/28 17:06
+ * @Version 1.0
+ */
+@RestController()
+public class ExceptionTestController &#123;
+
+    @RequestMapping(&quot;/customer/&#123;id&#125;&quot;)
+    public void testCustomerEx(@PathVariable String id)&#123;
+        throw new ExceptionDemo(id);
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

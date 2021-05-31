@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>数据库和Reids缓存的数据一致性问题思考 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,在这里，我们讨论三种更新策略：
+先更新缓存，再更新数据库
+先更新数据库，再更新缓存
+先删除缓存，再更新数据库
+先更新数据库，再删除缓存
+第一种，先更新缓存，再更新数据库问题：更新缓存成功，更新数据库,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">数据库和Reids缓存的数据一致性问题思考</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">数据库和Reids缓存的数据一致性问题思考</h1>
+        <div class="stuff">
+            <span>五月 25, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/redis%E5%92%8Cmysql%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E7%9A%84%E9%97%AE%E9%A2%98/" rel="tag">redis和mysql数据一致性的问题</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>在这里，我们讨论三种更新策略：</p>
+<p>先更新缓存，再更新数据库</p>
+<p>先更新数据库，再更新缓存</p>
+<p>先删除缓存，再更新数据库</p>
+<p>先更新数据库，再删除缓存</p>
+<h5 id="第一种，先更新缓存，再更新数据库"><a href="#第一种，先更新缓存，再更新数据库" class="headerlink" title="第一种，先更新缓存，再更新数据库"></a>第一种，先更新缓存，再更新数据库</h5><p>问题：更新缓存成功，更新数据库失败，导致数据不一致。</p>
+<h5 id="第二种，先更新数据库，再更新缓存"><a href="#第二种，先更新数据库，再更新缓存" class="headerlink" title="第二种，先更新数据库，再更新缓存"></a>第二种，先更新数据库，再更新缓存</h5><p>问题：</p>
+<p>1、A更新数据库</p>
+<p>2、B更新数据库</p>
+<p>3、B写入缓存</p>
+<p>4、A写入缓存</p>
+<p>出现数据不一致。</p>
+<p>第二种，先删除缓存，再更新数据库。网络上的方案</p>
+<p>延时双删</p>
+<p>1、先删除缓存</p>
+<p>2、更新数据库</p>
+<p>3、等待一会再删除缓存</p>
+<p>问题之一：延时双删，演变成了：先更新数据库，再删除缓存。。。。</p>
+<p>比如：</p>
+<p>1、A删除缓存</p>
+<p>2、B查询数据库获取旧值</p>
+<p>3、B更新了缓存</p>
+<p>4、A更新数据库</p>
+<p>5、A延时删缓存</p>
+<p>1～3步执行后，数据库和缓存是一致的，成了开支执行前的状态，相当于没执行。</p>
+<p>4～5步：先更新数据库，再删缓存。</p>
+<p>所以延时双删演变成了：先更新数据库，再删除缓存。问题还是没解决。。。</p>
+<p>为什么？假设，此时，在第4步执行之前，又来了个查询C，C查询到旧值。第6步：C将旧值插入缓存。此时出现缓存和数据库不一致。</p>
+<p>延时并不能解决：C插入缓存的操作在第5步后面执行，比如C遇到网络问题、GC问题等。当然这是小概率，但并不代表不存在。</p>
+<p>当然，延时越长，这个问题越能规避。如果业务需求不是非常严格，是可以忽略的。</p>
+<h5 id="第三种，先更新数据库，再删除缓存"><a href="#第三种，先更新数据库，再删除缓存" class="headerlink" title="第三种，先更新数据库，再删除缓存"></a>第三种，先更新数据库，再删除缓存</h5><p>问题：上面C的查询，已经说明问题了。</p>
+<p>出现数据不一致的概率，比较小。采取这个方案，取决于业务需求。</p>
+<p>终极方案</p>
+<p>真正靠谱的方案：将访问操作串行化</p>
+<p>先删缓存，将更新数据库的操作放进有序队列中</p>
+<p>从缓存查不到的查询操作，都进入有序队列</p>
+<p>会面临的问题：</p>
+<p>读请求积压，大量超时，导致数据库的压力：限流、熔断</p>
+<p>如何避免大量请求积压：将队列水平拆分，提高并行度。</p>
+<p>保证相同请求路由正确。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

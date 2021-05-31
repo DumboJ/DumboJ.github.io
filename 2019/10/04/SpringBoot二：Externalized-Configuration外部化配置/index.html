@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SpringBoot二：Externalized Configuration外部化配置 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,SpringBoot外部化配置官方配置介绍文档
+官方配置文档
+外部化配置参数方式SrpingBoot除了帮我们完成一些自动配置的同时，也允许我们使用外部化配置覆盖原有配置。以便于在不同的环境中使用相,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">SpringBoot二：Externalized Configuration外部化配置</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">SpringBoot二：Externalized Configuration外部化配置</h1>
+        <div class="stuff">
+            <span>十月 04, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/springboot-%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">-springboot -微服务</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h3 id="SpringBoot外部化配置"><a href="#SpringBoot外部化配置" class="headerlink" title="SpringBoot外部化配置"></a>SpringBoot外部化配置</h3><p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html">官方配置介绍文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html">官方配置文档</a></p>
+<h3 id="外部化配置参数方式"><a href="#外部化配置参数方式" class="headerlink" title="外部化配置参数方式"></a>外部化配置参数方式</h3><p>SrpingBoot除了帮我们完成一些自动配置的同时，也允许我们使用外部化配置覆盖原有配置。以便于在不同的环境中使用相同的应用程序代码。</p>
+<p>外部化配置的方式可以是下列几种：</p>
+<p>​                ——–properties文件</p>
+<p>​                ——–YAML文件</p>
+<p>​                ——–环境变量</p>
+<p>​                ——–命令行参数</p>
+<p>属性值可以通过@Value直接注入，通过访问Spring的Environment抽象或者通过结构化对象@ConfigurationProperties绑定。在与@ConfigurationProperties映射时，prefix=“param”,param不能以大写字母开头，必须是小写,有分隔符必须是连字符-，比如my-name，my_name不行。否则项目启动时报错：    </p>
+<pre><code class="java">Description:
+
+Configuration property name &#39;Student2&#39; is not valid:
+
+    Invalid characters: &#39;S&#39;
+    Bean: /stu2
+    Reason: Canonical names should be kebab-case (&#39;-&#39; separated), lowercase alpha-numeric characters and must start with a letter
+
+Action:
+
+Modify &#39;Student2&#39; so that it conforms to the canonical names requirements.
+</code></pre>
+<p>​    </p>
+<pre><code class="java">    SpringBoot Configration Processor not found int classpath //错误信息    
+</code></pre>
+<p>​    原因:spring配置注解未在classpath中未找到，springboot1.5以上@ConfigurationProperties取消位置注解</p>
+<p>​    解决方案：在Entity实体上加注解@PropertySource(“application.properties”)</p>
+<h3 id="配置随机数"><a href="#配置随机数" class="headerlink" title="配置随机数"></a>配置随机数</h3><p>随机数属性源（RandomValuePropertySource）可用于注入随机数。它可以生成int,long,uuid,String等数据类型的随机数，例如</p>
+<pre><code class="java">my.secret=$&#123;random.vaue&#125;
+my.number=$&#123;random.int&#125;
+my.uuid=$&#123;random.uuid&#125;
+my.bignumber=$&#123;random.long&#125;
+my.number.less.than-ten=$&#123;random.int(10)&#125;
+#某个范围内的值
+my.number.in-range=$&#123;random.int[15,999]&#125;
+</code></pre>
+<h3 id="YAML配置和properties配置"><a href="#YAML配置和properties配置" class="headerlink" title="YAML配置和properties配置"></a>YAML配置和properties配置</h3><blockquote>
+<p>properties配置就是普通的键值对 key=value 形式。</p>
+</blockquote>
+<p>例：</p>
+<pre><code class="java">website.github=www.github.com
+</code></pre>
+<blockquote>
+<p>YAML配置：YAML是JSON的超集，是一种用于指定层次结构配置数据的便捷格式。只要在类路径上具有SnakeYAML库，SpringApplication类就会自动支持YAML作为属性的替代方法。</p>
+</blockquote>
+<h4 id="yaml文件相关说明"><a href="#yaml文件相关说明" class="headerlink" title="yaml文件相关说明"></a>yaml文件相关说明</h4><p>​        spring提供两个对应的工厂类，可用于加载YAML文件。<code>YamlPropertiesFactoryBean</code>     加载属性作为properties键值对，<code>YamlMapFactoryBean</code> 加载属性作为Map对象。</p>
+<p>例如配置文件application.yaml</p>
+<pre><code class="yaml">environment： 
+    #生产环境
+    prod:
+        url: http://dumboj.top
+        name: myblog
+    #开发环境
+    dev:
+        url: http://dumboj.github.io
+        name: myblogDev
+##!!!YAML的相同缩进代表同级，带属性值的key：value,:后必须有空格
+</code></pre>
+<p>示例将被转换成以下属性：</p>
+<pre><code class="properties">environment.prod.url=http://dumboj.top
+environment.prod.name=myblog
+environment.dev.url=http://dumboj.github.io
+environment.dev.name=myblogDev
+</code></pre>
+<h5 id="YAML文件可以用-index-表示属性值。"><a href="#YAML文件可以用-index-表示属性值。" class="headerlink" title="YAML文件可以用[index]表示属性值。"></a>YAML文件可以用[index]表示属性值。</h5><p>例如：</p>
+<pre><code class="yaml">server:
+    url:
+        -localhost: 8080
+        -localhost: 8081
+</code></pre>
+<p>可以转化成：</p>
+<pre><code class="properties">server.url[0]=localhost:8080
+server.url[1]=localhost:8081
+</code></pre>
+<h5 id="ConfigurationProperties-绑定属性"><a href="#ConfigurationProperties-绑定属性" class="headerlink" title="@ConfigurationProperties 绑定属性"></a><code>@ConfigurationProperties</code> 绑定属性</h5><p>提供对应属性的setter方法，上面例子就可以表示为：</p>
+<pre><code class="java">@ConfigurationProperties(prefix=&quot;server&quot;)
+public class config()&#123;
+    private List&lt;String&gt; url = new ArrayList&lt;String&gt;();    
+    public List&lt;String&gt; getUrl() &#123;
+        return this.Url;
+    &#125;
+&#125;
+</code></pre>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

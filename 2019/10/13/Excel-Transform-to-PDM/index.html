@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Excel Transform to PDM - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,使用VB脚本代码，将Excel配置的表结构导入到PowerDesigner中生成对应数据库的物理表模型。
+EXCEL格式表格说明：A列红色字体的数据对应PDM中表名Code,B列红色字体对应PDM中,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Excel Transform to PDM</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Excel Transform to PDM</h1>
+        <div class="stuff">
+            <span>十月 13, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/PDM-Excel-VB-Script/" rel="tag">-PDM -Excel -VB Script</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>使用VB脚本代码，将Excel配置的表结构导入到PowerDesigner中生成对应数据库的物理表模型。</p>
+<h3 id="EXCEL格式"><a href="#EXCEL格式" class="headerlink" title="EXCEL格式"></a>EXCEL格式</h3><p>表格说明：A列红色字体的数据对应PDM中表名Code,B列红色字体对应PDM中表名name</p>
+<p>黄色框内代表每张表单的各个属性。</p>
+<p>A列字段code、B列字段name、</p>
+<blockquote>
+<p>C列为空时，代表这一行为声明表名的行。这里有个小问题就是，C列当为表名所在的行时必须为空；C列为字段所在行时只要不为空都可以，不需要按照表头属性填写。</p>
+</blockquote>
+<p>其它可以看图理解。</p>
+<p>将表名、字段名、字段数据类型、是否主键、是否为空这些必填项按照设计的表结构填写。</p>
+<p><img src="https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/Excel-revse-PDM.png"></p>
+<h3 id="VB脚本"><a href="#VB脚本" class="headerlink" title="VB脚本"></a>VB脚本</h3><p>VB脚本中有注释，修改对应配置好的Excel文件路径</p>
+<pre><code class="vbscript">Option Explicit
+ 
+Dim mdl &#39; the current model
+Set mdl = ActiveModel
+If (mdl Is Nothing) Then
+   MsgBox &quot;There is no Active Model&quot;
+End If
+ 
+Dim HaveExcel
+Dim RQ
+RQ = vbYes &#39;MsgBox(&quot;Is Excel Installed on your machine ?&quot;, vbYesNo + vbInformation, &quot;Confirmation&quot;)
+If RQ = vbYes Then
+   HaveExcel = True
+   &#39; Open &amp; Create Excel Document
+   Dim x1  &#39;
+   Set x1 = CreateObject(&quot;Excel.Application&quot;)
+   x1.Workbooks.Open &quot;C:\Users\JP\Desktop\EXCEL_PDM.xlsx&quot;   &#39;指定excel文档路径
+   x1.Workbooks(1).Worksheets(&quot;Sheet1&quot;).Activate   &#39;指定要打开的sheet名称
+Else
+   HaveExcel = False
+End If
+ 
+a x1, mdl
+sub a(x1, mdl)
+dim rwIndex   
+dim tableName
+dim colname
+dim table
+dim col
+dim count
+on error Resume Next
+ 
+For rwIndex = 2 To 1000   &#39;指定要遍历的Excel行标  由于第1行是表头，从第2行开始
+        With x1.Workbooks(1).Worksheets(&quot;Sheet1&quot;)
+            If .Cells(rwIndex, 1).Value = &quot;&quot; Then &#39;如果遍历到第一列为空，则退出
+               Exit For
+            End If
+            If .Cells(rwIndex, 3).Value = &quot;&quot; Then &#39;如果遍历到第三列为空，则此行为表名
+               set table = mdl.Tables.CreateNew     &#39;创建表
+                table.Code = .Cells(rwIndex , 1).Value &#39;指定表名，第一列的值
+                table.Name = .Cells(rwIndex , 2).Value 
+                table.Comment = .Cells(rwIndex , 8).Value &#39;指定表注释，第二列的值
+                count = count + 1  
+            Else
+               set col = table.Columns.CreateNew   &#39;创建一列/字段
+               &#39;MsgBox .Cells(rwIndex, 1).Value, vbOK + vbInformation, &quot;列&quot;            
+                  col.Code = .Cells(rwIndex, 1).Value   &#39;指定列名       
+               &#39;MsgBox col.Name, vbOK + vbInformation, &quot;列&quot;
+               col.Name = .Cells(rwIndex, 2).Value   &#39;指定列名                        
+               col.DataType = .Cells(rwIndex, 5).Value &#39;指定列数据类型           
+                 &#39;MsgBox col.DataType, vbOK + vbInformation, &quot;列类型&quot;               
+               col.Comment = .Cells(rwIndex, 8).Value  &#39;指定列说明
+               col.Precision = .Cells(rwIndex, 6).Value  &#39;精度
+                If .Cells(rwIndex,9).Value=&quot;是&quot; then
+                 col.Mandatory= true    &#39;是否为空
+             End If  
+               If .Cells(rwIndex,7).Value=&quot;Y&quot; Then
+                col.Primary  = true  &#39;是否主键
+            End If
+            End If    
+        End With
+Next
+MsgBox &quot;生成数据表结构共计 &quot; + CStr(count), vbOK + vbInformation, &quot;表&quot;
+ 
+Exit Sub
+End sub
+</code></pre>
+<h3 id="脚本导入"><a href="#脚本导入" class="headerlink" title="脚本导入"></a>脚本导入</h3><ol>
+<li><p>File→New Model→PhysicalDataModel→ok</p>
+<p>在powerDesigner中新建物理模型，并选择相应的数据库类型</p>
+<p><img src="https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/newPdmModel.jpg"></p>
+</li>
+</ol>
+<p>2.导入脚本</p>
+<p>tools→Execute Commands→Edit/Run Script→Run</p>
+<p>导入对应的VB脚本，修改文件路径</p>
+<p><img src="https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/runVBScript.jpg"></p>
+<p>3.执行结果，查看表结构</p>
+<p><img src="https://raw.githubusercontent.com/DumboJ/DumboJ.github.io/hexo/source/static/sourcepic/PDM-tables.jpg"></p>
+<p>4.操作表，建立表关联关系。</p>
+<h5 id="PDM转Excel"><a href="#PDM转Excel" class="headerlink" title="PDM转Excel"></a>PDM转Excel</h5><h6 id="vb脚本"><a href="#vb脚本" class="headerlink" title="vb脚本"></a>vb脚本</h6><pre><code class="vbscript">Option Explicit
+   Dim rowsNum
+   rowsNum = 0
+&#39;-----------------------------------------------------------------------------
+&#39; Main function
+&#39;-----------------------------------------------------------------------------
+&#39; Get the current active model
+    Dim Model
+    Set Model = ActiveModel
+    If (Model Is Nothing) Or (Not Model.IsKindOf(PdPDM.cls_Model)) Then
+       MsgBox &quot;The current model is not an PDM model.&quot;
+    Else
+      &#39; Get the tables collection
+      &#39;创建EXCEL APP
+      dim beginrow
+      DIM EXCEL, SHEET, SHEETLIST
+      set EXCEL = CREATEOBJECT(&quot;Excel.Application&quot;)
+      EXCEL.workbooks.add(-4167)&#39;添加工作表
+      EXCEL.workbooks(1).sheets(1).name =&quot;表结构&quot;
+      set SHEET = EXCEL.workbooks(1).sheets(&quot;表结构&quot;)
+      
+      EXCEL.workbooks(1).sheets.add
+      EXCEL.workbooks(1).sheets(1).name =&quot;目录&quot;
+      set SHEETLIST = EXCEL.workbooks(1).sheets(&quot;目录&quot;)
+      ShowTableList Model,SHEETLIST
+
+      ShowProperties Model, SHEET,SHEETLIST
+      
+      
+      EXCEL.workbooks(1).Sheets(2).Select
+      EXCEL.visible = true
+      &#39;设置列宽和自动换行
+      sheet.Columns(1).ColumnWidth = 20 
+      sheet.Columns(2).ColumnWidth = 20 
+      sheet.Columns(3).ColumnWidth = 20 
+      sheet.Columns(4).ColumnWidth = 40 
+      sheet.Columns(5).ColumnWidth = 10 
+      sheet.Columns(6).ColumnWidth = 10 
+      sheet.Columns(1).WrapText =true
+      sheet.Columns(2).WrapText =true
+      sheet.Columns(4).WrapText =true
+      &#39;不显示网格线
+      EXCEL.ActiveWindow.DisplayGridlines = False
+      
+      
+ End If
+&#39;-----------------------------------------------------------------------------
+&#39; Show properties of tables
+&#39;-----------------------------------------------------------------------------
+Sub ShowProperties(mdl, sheet,SheetList)
+   &#39; Show tables of the current model/package
+   rowsNum=0
+   beginrow = rowsNum+1
+   Dim rowIndex 
+   rowIndex=3
+   &#39; For each table
+   output &quot;begin&quot;
+   Dim tab
+   For Each tab In mdl.tables
+      ShowTable tab,sheet,rowIndex,sheetList
+      rowIndex = rowIndex +1
+   Next
+   if mdl.tables.count &gt; 0 then
+        sheet.Range(&quot;A&quot; &amp; beginrow + 1 &amp; &quot;:A&quot; &amp; rowsNum).Rows.Group
+   end if
+   output &quot;end&quot;
+End Sub
+&#39;-----------------------------------------------------------------------------
+&#39; Show table properties
+&#39;-----------------------------------------------------------------------------
+Sub ShowTable(tab, sheet,rowIndex,sheetList)
+   If IsObject(tab) Then
+     Dim rangFlag
+     rowsNum = rowsNum + 1
+      &#39; Show properties
+      Output &quot;================================&quot;
+      sheet.cells(rowsNum, 1) =tab.name
+      sheet.cells(rowsNum, 1).HorizontalAlignment=3
+      sheet.cells(rowsNum, 2) = tab.code
+      &#39;sheet.cells(rowsNum, 5).HorizontalAlignment=3
+      &#39;sheet.cells(rowsNum, 6) = &quot;&quot;
+      &#39;sheet.cells(rowsNum, 7) = &quot;表说明&quot;
+      sheet.cells(rowsNum, 3) = tab.comment
+      &#39;sheet.cells(rowsNum, 8).HorizontalAlignment=3
+      sheet.Range(sheet.cells(rowsNum, 3),sheet.cells(rowsNum, 7)).Merge
+      &#39;设置超链接，从目录点击表名去查看表结构
+      &#39;字段中文名    字段英文名    字段类型    注释    是否主键    是否非空    默认值
+      sheetList.Hyperlinks.Add sheetList.cells(rowIndex,2), &quot;&quot;,&quot;表结构&quot;&amp;&quot;!B&quot;&amp;rowsNum
+      rowsNum = rowsNum + 1
+      sheet.cells(rowsNum, 1) = &quot;字段中文名&quot;
+      sheet.cells(rowsNum, 2) = &quot;字段英文名&quot;
+      sheet.cells(rowsNum, 3) = &quot;字段类型&quot;
+      sheet.cells(rowsNum, 4) = &quot;注释&quot;
+      sheet.cells(rowsNum, 5) = &quot;是否主键&quot;
+      sheet.cells(rowsNum, 6) = &quot;是否非空&quot;
+      sheet.cells(rowsNum, 7) = &quot;默认值&quot;
+      &#39;设置边框
+      sheet.Range(sheet.cells(rowsNum-1, 1),sheet.cells(rowsNum, 7)).Borders.LineStyle = &quot;1&quot;
+      &#39;sheet.Range(sheet.cells(rowsNum-1, 4),sheet.cells(rowsNum, 9)).Borders.LineStyle = &quot;1&quot;
+      &#39;字体为10号
+      sheet.Range(sheet.cells(rowsNum-1, 1),sheet.cells(rowsNum, 7)).Font.Size=10
+            Dim col &#39; running column
+            Dim colsNum
+            colsNum = 0
+      for each col in tab.columns
+        rowsNum = rowsNum + 1
+        colsNum = colsNum + 1
+          sheet.cells(rowsNum, 1) = col.name
+        &#39;sheet.cells(rowsNum, 3) = &quot;&quot;
+          &#39;sheet.cells(rowsNum, 4) = col.name
+          sheet.cells(rowsNum, 2) = col.code
+          sheet.cells(rowsNum, 3) = col.datatype
+        sheet.cells(rowsNum, 4) = col.comment
+          If col.Primary = true Then
+        sheet.cells(rowsNum, 5) = &quot;Y&quot; 
+        Else
+        sheet.cells(rowsNum, 5) = &quot; &quot; 
+        End If
+        If col.Mandatory = true Then
+        sheet.cells(rowsNum, 6) = &quot;Y&quot; 
+        Else
+        sheet.cells(rowsNum, 6) = &quot; &quot; 
+        End If
+        sheet.cells(rowsNum, 7) =  col.defaultvalue
+      next
+      sheet.Range(sheet.cells(rowsNum-colsNum+1,1),sheet.cells(rowsNum,7)).Borders.LineStyle = &quot;3&quot;       
+      &#39;sheet.Range(sheet.cells(rowsNum-colsNum+1,4),sheet.cells(rowsNum,9)).Borders.LineStyle = &quot;3&quot;
+      sheet.Range(sheet.cells(rowsNum-colsNum+1,1),sheet.cells(rowsNum,7)).Font.Size = 10
+      rowsNum = rowsNum + 2
+      
+      Output &quot;FullDescription: &quot;       + tab.Name
+   End If
+   
+End Sub
+&#39;-----------------------------------------------------------------------------
+&#39; Show List Of Table
+&#39;-----------------------------------------------------------------------------
+Sub ShowTableList(mdl, SheetList)
+   &#39; Show tables of the current model/package
+   Dim rowsNo
+   rowsNo=1
+   &#39; For each table
+   output &quot;begin&quot;
+   SheetList.cells(rowsNo, 1) = &quot;主题&quot;
+   SheetList.cells(rowsNo, 2) = &quot;表中文名&quot;
+   SheetList.cells(rowsNo, 3) = &quot;表英文名&quot;
+   SheetList.cells(rowsNo, 4) = &quot;表说明&quot;
+   rowsNo = rowsNo + 1
+   SheetList.cells(rowsNo, 1) = mdl.name
+   Dim tab
+   For Each tab In mdl.tables
+     If IsObject(tab) Then
+         rowsNo = rowsNo + 1
+      SheetList.cells(rowsNo, 1) = &quot;&quot;
+      SheetList.cells(rowsNo, 2) = tab.name
+      SheetList.cells(rowsNo, 3) = tab.code
+      SheetList.cells(rowsNo, 4) = tab.comment
+     End If
+   Next
+    SheetList.Columns(1).ColumnWidth = 20 
+      SheetList.Columns(2).ColumnWidth = 20 
+      SheetList.Columns(3).ColumnWidth = 30 
+     SheetList.Columns(4).ColumnWidth = 60 
+   output &quot;end&quot;
+End Sub
+</code></pre>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>springboot中过滤器和拦截器 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,过滤器1.定义过滤器package cn.dumboj.filter;
+
+import javax.servlet.*;
+import java.io.IOException;
+import jav,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">springboot中过滤器和拦截器</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">springboot中过滤器和拦截器</h1>
+        <div class="stuff">
+            <span>四月 29, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/springboot/" rel="tag">springboot</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h4><h6 id="1-定义过滤器"><a href="#1-定义过滤器" class="headerlink" title="1.定义过滤器"></a>1.定义过滤器</h6><pre><code class="java">package cn.dumboj.filter;
+
+import javax.servlet.*;
+import java.io.IOException;
+import java.util.Date;
+
+/**
+ * @Description 过滤器执行耗时---接口实现
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/29 11:11
+ * @Version 1.0
+ */
+//@Component
+//@WebFilter(urlPatterns = &quot;/*&quot;)
+public class AnnotationTimeFilter implements Filter &#123;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException &#123;
+        System.out.println(&quot;filter init....&quot;);
+    &#125;
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;
+        System.out.println(&quot;start filter&quot;);
+        long startTime = new Date().getTime();
+        chain.doFilter(request,response);
+        System.out.println(&quot;过滤器耗时：&quot; + (new Date().getTime() - startTime));
+        System.out.println(&quot;过滤器执行完成&quot;);
+    &#125;
+    @Override
+    public void destroy() &#123;
+        System.out.println(&quot;销毁过滤器&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h6 id="2-过滤条件设置和过滤器注入方式一：注解注入（推荐）"><a href="#2-过滤条件设置和过滤器注入方式一：注解注入（推荐）" class="headerlink" title="2.过滤条件设置和过滤器注入方式一：注解注入（推荐）"></a>2.过滤条件设置和过滤器注入方式一：注解注入（推荐）</h6><p>​    </p>
+<pre><code class="java">/**
+配置方式一：注解方式
+ *    &#123;@link  @Component&#125;  bean注入容器
+ *    &#123;@link  @WebFilter(urlPatterns = &quot;/*&quot;)&#125;
+ *              urlPatterns 配置哪些请求可以进入过滤器，/*表示所有请求
+ */
+@Component
+@WebFilter(urlPatterns = &quot;/*&quot;)
+public class AnnotationTimeFilter implements Filter &#123;
+    ...    ...
+&#125;
+</code></pre>
+<h6 id="3-过滤条件设置和过滤器注入方式二：过滤器注册"><a href="#3-过滤条件设置和过滤器注入方式二：过滤器注册" class="headerlink" title="3.过滤条件设置和过滤器注入方式二：过滤器注册"></a>3.过滤条件设置和过滤器注入方式二：过滤器注册</h6><pre><code class="java">package cn.dumboj.filter;
+
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.servlet.Filter;
+import java.util.ArrayList;
+
+/**
+ * @Description 过滤器质性耗时--注册器实现
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/29 14:10
+ * @Version 1.0
+ */
+@Configuration
+public class RegistraTimeFilter &#123;
+    //筑造器注入
+    @Bean
+    public FilterRegistrationBean registrationBeanFilter()&#123;
+        FilterRegistrationBean&lt;Filter&gt; filterRegistrationBean = new FilterRegistrationBean&lt;&gt;();
+        AnnotationTimeFilter timeFilter = new AnnotationTimeFilter();
+        //设置具体过滤器实现
+        filterRegistrationBean.setFilter(timeFilter);
+        //设置过滤条件
+        ArrayList&lt;String&gt; urlList = new ArrayList&lt;&gt;();
+        urlList.add(&quot;/*&quot;);
+        filterRegistrationBean.setUrlPatterns(urlList);
+        return filterRegistrationBean;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h4><p>Springboot中定义拦截器，</p>
+<h6 id="条件一："><a href="#条件一：" class="headerlink" title="条件一："></a>条件一：</h6><p>实现org.springframework.web.servlet.HandlerInterceptor接口</p>
+<pre><code class="java">package cn.dumboj.interceptor;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+
+/**
+ * @Description 自定义拦截器
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/29 19:15
+ * @Version 1.0
+ */
+@Component
+public class CustomerInterceptor implements HandlerInterceptor  &#123;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;
+        System.out.println(&quot;拦截预处理：&quot;);
+        request.setAttribute(&quot;startTime&quot;,new Date().getTime());
+        String beanName = (((HandlerMethod) handler)).getBean().getClass().getName();
+        String methodName = (((HandlerMethod) handler)).getMethod().getName();
+        System.out.println(&quot;类方法：&quot; + beanName + &quot;.&quot; + methodName);
+        return true;
+    &#125;
+
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception &#123;
+        System.out.println(&quot;开始处理拦截&quot;);
+        Long  startTime = (Long) request.getAttribute(&quot;startTime&quot;);
+        System.out.println(&quot;拦截器postHandle()执行完耗时：&quot;+(new Date().getTime()-startTime));
+    &#125;
+
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception &#123;
+        System.out.println(&quot;处理拦截后&quot;);
+        Long  startTime = (Long) request.getAttribute(&quot;startTime&quot;);
+        System.out.println(&quot;拦截器 afterCompletion ()执行完耗时：&quot;+(new Date().getTime()-startTime));
+        System.out.println(&quot;异常信息:&quot;+ex);
+    &#125;
+&#125;
+</code></pre>
+<p>HandlerInterceptor接口中三个方法实现：</p>
+<ul>
+<li><p>​    preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)</p>
+<p>​        <em>处理拦截之前执行</em></p>
+</li>
+<li><p>postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</p>
+<p>​        <em>被拦截的方法没有抛出异常时才执行</em></p>
+</li>
+<li><p>afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</p>
+<p>​        <em>无论被拦截方法是否抛出异常都会执行</em></p>
+</li>
+</ul>
+<h6 id="条件二："><a href="#条件二：" class="headerlink" title="条件二："></a>条件二：</h6><ol>
+<li><p>自定义拦截器类上加入@Component注解；</p>
+</li>
+<li><p>添加配置类,实现WebMvcConfigurer接口，并重写addInterceptors（），注册自定义过滤器</p>
+<pre><code class="java">package cn.dumboj.interceptor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.annotation.Resource;
+
+/**
+ * @Description 注册拦截器
+ * @return
+ * @Author dumboj
+ * @Date 2020/4/30 16:14
+ * @Version 1.0
+ */
+@Configuration
+public class InterceptConfig implements WebMvcConfigurer &#123;
+    /**
+     * Add Spring MVC lifecycle interceptors for pre- and post-processing of
+     * controller method invocations and resource handler requests.
+     * Interceptors can be registered to apply to all requests or be limited
+     * to a subset of URL patterns.
+     *
+     * &#123;@link WebMvcConfigurerAdapter&#125;
+     *  as of 5.0 &#123;@link WebMvcConfigurer&#125; has default methods (made
+     *  * possible by a Java 8 baseline)
+     * @param registry
+     */
+
+    @Resource
+    private  CustomerInterceptor customerInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) &#123;
+        registry.addInterceptor(customerInterceptor);
+    &#125;
+&#125;
+</code></pre>
+<p>​    </p>
+</li>
+</ol>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

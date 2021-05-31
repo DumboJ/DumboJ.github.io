@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>elaticsearch学习一 - DumboJ</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="DumboJ,"> 
+    <meta name="description" content="Dumboj&#39;Blog,一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题：
+数据库选型
+单点故障问题
+数据安全性问题
+检索难题
+统计、分析数据问题
+
+二、关系型数据库解决方案
+ 通过主从备份解决数据安全性问题；,"> 
+    <meta name="author" content="Jun Qian"> 
+    <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">DumboJ</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">elaticsearch学习一</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">elaticsearch学习一</h1>
+        <div class="stuff">
+            <span>一月 13, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h5 id="一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题："><a href="#一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题：" class="headerlink" title="一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题："></a>一、数据量比较大，上十亿百亿时，系统架构针对数据存储面临问题：</h5><ol>
+<li>数据库选型</li>
+<li>单点故障问题</li>
+<li>数据安全性问题</li>
+<li>检索难题</li>
+<li>统计、分析数据问题</li>
+</ol>
+<h5 id="二、关系型数据库解决方案"><a href="#二、关系型数据库解决方案" class="headerlink" title="二、关系型数据库解决方案"></a>二、关系型数据库解决方案</h5><ol>
+<li> 通过主从备份解决数据安全性问题；</li>
+<li>通过数据库代理中间件心跳监测，解决单点故障问题；</li>
+<li> 通过代理中间件将查询语句分发到各个slave节点进行查询，并汇总结果 </li>
+</ol>
+<h5 id="三、非关系型数据库解决方案"><a href="#三、非关系型数据库解决方案" class="headerlink" title="三、非关系型数据库解决方案"></a>三、非关系型数据库解决方案</h5><ol>
+<li><p> 通过副本备份保证数据安全性； </p>
+</li>
+<li><p> 通过节点竞选机制解决单点问题； </p>
+</li>
+<li><p> 先从配置库检索分片信息，然后将请求分发到各个节点，最后由路由节点合并汇总结果  </p>
+</li>
+</ol>
+<p>   ps:将数据全部放于内存中，PB级别数据分配到单台机器，满内存使用情况下，节点数太大，再考虑数据备份，节点数更大，不现实。</p>
+<h5 id="四、Elasticsearch"><a href="#四、Elasticsearch" class="headerlink" title="四、Elasticsearch"></a>四、Elasticsearch</h5><p>在传统数据库存储的数据安全性问题，大流量下，为解决上述关系和非关系型数据库的问题，引出ES。</p>
+<p>解决方式：</p>
+<ol>
+<li> 存储数据时按有序存储；  </li>
+<li> 将数据和索引分离； </li>
+<li> 压缩数据；  </li>
+</ol>
+<h5 id="五、ES基础"><a href="#五、ES基础" class="headerlink" title="五、ES基础"></a>五、ES基础</h5><ul>
+<li><h6 id="定义：-是一个开源的高扩展的分布式全文检索引擎"><a href="#定义：-是一个开源的高扩展的分布式全文检索引擎" class="headerlink" title="定义： 是一个开源的高扩展的分布式全文检索引擎"></a>定义： 是一个开源的高扩展的分布式全文检索引擎</h6><ol>
+<li>近乎实时的存储、检索数据； </li>
+</ol>
+<p>​    2. 扩展性好，可以扩展服务器，处理PB级别的数据；</p>
+</li>
+<li><ol>
+<li></li>
+</ol>
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
