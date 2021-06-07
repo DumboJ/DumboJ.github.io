@@ -5,12 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Archive: 2019/11</title>
+    <title>neo4j图数据库入门 - DumboJ</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="DumboJ,"> 
-    <meta name="description" content="Dumboj&#39;Blog,"> 
+    <meta name="description" content="Dumboj&#39;Blog,Neo4j简介：-安装-启动-入门教程-节点-增-删-改-查-属性-增-删-改-查关系-增-删-改-查"> 
     <meta name="author" content="Jun Qian"> 
     <link rel="alternative" href="atom.xml" title="DumboJ" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -35,38 +35,72 @@
 <body class="loading">
     <span id="config-title" style="display:none">DumboJ</span>
     <div id="loader"></div>
-    <div id="single" class="page">
-    <div id="top">
-        <a class="icon-left image-icon" href="javascript:history.back()"></a>
-    </div>
-    <div class="section">
-        <div class="article">
-            <div class="main">
-                <div class="content">
-                    <div class="timeline">
-                      <h2 class="timeline-title">归档: 37篇</h2>
-                      
-                        
-                          <h3 class="timeline-subtitle">2019</h3>
-                        
-                        <div class="timeline-item">
-                          <time>2019-11-19</time>
-                          <a target="_self" href="/2019/11/19/FastJson%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2Map%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E6%B3%95/">FastJson字符串转换Map的六种方法</a>
-                        </div>
-                      
-                        
-                        <div class="timeline-item">
-                          <time>2019-11-01</time>
-                          <a target="_self" href="/2019/11/01/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E4%B9%A6%E5%86%99%E6%A8%A1%E6%9D%BF/">接口文档书写模板</a>
-                        </div>
-                      
-                    </div>
-                </div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://dumboj.top"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">neo4j图数据库入门</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
             </div>
+            <div id="qr"></div>
         </div>
     </div>
+    <div class="scrollbar"></div>
 </div>
 
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">neo4j图数据库入门</h1>
+        <div class="stuff">
+            <span>六月 07, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/neo4j/" rel="tag">neo4j</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="Neo4j简介："><a href="#Neo4j简介：" class="headerlink" title="Neo4j简介："></a>Neo4j简介：</h4><h4 id="安装"><a href="#安装" class="headerlink" title="-安装"></a>-安装</h4><h4 id="启动"><a href="#启动" class="headerlink" title="-启动"></a>-启动</h4><h4 id="入门教程"><a href="#入门教程" class="headerlink" title="-入门教程"></a>-入门教程</h4><h5 id="节点"><a href="#节点" class="headerlink" title="-节点"></a>-节点</h5><h6 id="增"><a href="#增" class="headerlink" title="-增"></a>-增</h6><h6 id="删"><a href="#删" class="headerlink" title="-删"></a>-删</h6><h6 id="改"><a href="#改" class="headerlink" title="-改"></a>-改</h6><h6 id="查"><a href="#查" class="headerlink" title="-查"></a>-查</h6><h5 id="属性"><a href="#属性" class="headerlink" title="-属性"></a>-属性</h5><h6 id="增-1"><a href="#增-1" class="headerlink" title="-增"></a>-增</h6><h6 id="删-1"><a href="#删-1" class="headerlink" title="-删"></a>-删</h6><h6 id="改-1"><a href="#改-1" class="headerlink" title="-改"></a>-改</h6><h6 id="查-1"><a href="#查-1" class="headerlink" title="-查"></a>-查</h6><h5 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h5><h6 id="增-2"><a href="#增-2" class="headerlink" title="-增"></a>-增</h6><h6 id="删-2"><a href="#删-2" class="headerlink" title="-删"></a>-删</h6><h6 id="改-2"><a href="#改-2" class="headerlink" title="-改"></a>-改</h6><h6 id="查-2"><a href="#查-2" class="headerlink" title="-查"></a>-查</h6>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://sc1.111ttt.cn/2015/1/06/02/99021925549.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci='46c465b787a3b9347cd6'
+        data-cs='ca94721c3c4ac708ed575bb8aabe0a335ebcddcc'
+        data-r='DumboJ.github.io'
+        data-o='DumboJ'
+        data-a='DumboJ'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
 </body>
 
 <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>

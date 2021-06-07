@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://dumboj.top/"/>
-  <updated>2021-05-31T18:36:23.352Z</updated>
+  <updated>2021-06-07T14:18:10.005Z</updated>
   <id>http://dumboj.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>neo4j图数据库入门</title>
+    <link href="http://dumboj.top/2021/06/07/neo4j%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%A5%E9%97%A8/"/>
+    <id>http://dumboj.top/2021/06/07/neo4j图数据库入门/</id>
+    <published>2021-06-07T14:14:05.000Z</published>
+    <updated>2021-06-07T14:18:10.005Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="Neo4j简介："><a href="#Neo4j简介：" class="headerlink" title="Neo4j简介："></a>Neo4j简介：</h4><h4 id="安装"><a href="#安装" class="headerlink" title="-安装"></a>-安装</h4><h4 id="启动"><a href="#启动" class="headerlink" title="-启动"></a>-启动</h4><h4 id="入门教程"><a href="#入门教程" class="headerlink" title="-入门教程"></a>-入门教程</h4><h5 id="节点"><a href="#节点" class="headerlink" title="-节点"></a>-节点</h5><h6 id="增"><a href="#增" class="headerlink" title="-增"></a>-增</h6><h6 id="删"><a href="#删" class="headerlink" title="-删"></a>-删</h6><h6 id="改"><a href="#改" class="headerlink" title="-改"></a>-改</h6><h6 id="查"><a href="#查" class="headerlink" title="-查"></a>-查</h6><h5 id="属性"><a href="#属性" class="headerlink" title="-属性"></a>-属性</h5><h6 id="增-1"><a href="#增-1" class="headerlink" title="-增"></a>-增</h6><h6 id="删-1"><a href="#删-1" class="headerlink" title="-删"></a>-删</h6><h6 id="改-1"><a href="#改-1" class="headerlink" title="-改"></a>-改</h6><h6 id="查-1"><a href="#查-1" class="headerlink" title="-查"></a>-查</h6><h5 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h5><h6 id="增-2"><a href="#增-2" class="headerlink" title="-增"></a>-增</h6><h6 id="删-2"><a href="#删-2" class="headerlink" title="-删"></a>-删</h6><h6 id="改-2"><a href="#改-2" class="headerlink" title="-改"></a>-改</h6><h6 id="查-2"><a href="#查-2" class="headerlink" title="-查"></a>-查</h6>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;Neo4j简介：&quot;&gt;&lt;a href=&quot;#Neo4j简介：&quot; class=&quot;headerlink&quot; title=&quot;Neo4j简介：&quot;&gt;&lt;/a&gt;Neo4j简介：&lt;/h4&gt;&lt;h4 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; titl
+      
+    
+    </summary>
+    
+    
+      <category term="neo4j" scheme="http://dumboj.top/tags/neo4j/"/>
+    
+  </entry>
   
   <entry>
     <title>亿级流量缓存架构相关笔记</title>
@@ -456,31 +479,6 @@
     
     
       <category term="-fastjson" scheme="http://dumboj.top/tags/fastjson/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>接口文档书写模板</title>
-    <link href="http://dumboj.top/2019/11/01/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E4%B9%A6%E5%86%99%E6%A8%A1%E6%9D%BF/"/>
-    <id>http://dumboj.top/2019/11/01/接口文档书写模板/</id>
-    <published>2019-11-01T09:54:04.000Z</published>
-    <updated>2021-05-31T18:36:23.353Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="用户调查模块信息查询"><a href="#用户调查模块信息查询" class="headerlink" title="用户调查模块信息查询"></a>用户调查模块信息查询</h1><h2 id="请求地址"><a href="#请求地址" class="headerlink" title="请求地址"></a>请求地址</h2><p><code>userSurvey/getMessage?memberID=&#123;me&#125;</code></p><h2 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h2><p><code>post</code></p><h2 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h2><table><thead><tr><th>名称</th><th>类型</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>memberId</td><td>string</td><td>true</td><td>用户ID</td></tr></tbody></table><h2 id="请求内容示例"><a href="#请求内容示例" class="headerlink" title="请求内容示例"></a>请求内容示例</h2><p>无</p><h2 id="返回参数"><a href="#返回参数" class="headerlink" title="返回参数"></a>返回参数</h2><table><thead><tr><th>名称</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>code</td><td>string</td><td>状态码</td></tr><tr><td>message</td><td>string</td><td>返回说明</td></tr><tr><td>orderCode</td><td>string</td><td>序号</td></tr><tr><td>questionNaire</td><td>string</td><td>调查表名称</td></tr><tr><td>sTime</td><td>string</td><td>有效期起</td></tr><tr><td>endTime</td><td>string</td><td>有效期止</td></tr><tr><td>status</td><td>string</td><td>状态</td></tr></tbody></table><h2 id="返回内容示例"><a href="#返回内容示例" class="headerlink" title="返回内容示例"></a>返回内容示例</h2><h3 id="查询成功"><a href="#查询成功" class="headerlink" title="查询成功"></a>查询成功</h3><pre><code class="json">&#123;    &quot;code&quot;: &quot;0000&quot;,    &quot;message&quot;: &quot;查询成功&quot;,    &quot;Result&quot;: [        &#123;            &quot;orderCode&quot;: &quot;1&quot;,            &quot;questionNaire&quot;: &quot;2018年9月份标志业务满意度调查&quot;,            &quot;sTime&quot;: &quot;2018-09-27&quot;,            &quot;endTime&quot;: &quot;2018-10-15&quot;,            &quot;status&quot;: &quot;0&quot;        &#125;,        &#123;            &quot;orderCode&quot;: &quot;2&quot;,            &quot;questionNaire&quot;: &quot;2018年9月份订制业务满意度调查&quot;,            &quot;sTime&quot;: &quot;2018-09-27&quot;,            &quot;endTime&quot;: &quot;2018-10-15&quot;,            &quot;status&quot;: &quot;20&quot;        &#125;    ]&#125;</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;用户调查模块信息查询&quot;&gt;&lt;a href=&quot;#用户调查模块信息查询&quot; class=&quot;headerlink&quot; title=&quot;用户调查模块信息查询&quot;&gt;&lt;/a&gt;用户调查模块信息查询&lt;/h1&gt;&lt;h2 id=&quot;请求地址&quot;&gt;&lt;a href=&quot;#请求地址&quot; class=&quot;head
-      
-    
-    </summary>
-    
-      <category term="-接口文档模板" scheme="http://dumboj.top/categories/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E6%A8%A1%E6%9D%BF/"/>
-    
-    
-      <category term="-接口文档示例" scheme="http://dumboj.top/tags/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E7%A4%BA%E4%BE%8B/"/>
     
   </entry>
   
