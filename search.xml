@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[本地虚拟机环境配置信息]]></title>
+    <url>%2F2021%2F08%2F31%2F%E6%9C%AC%E5%9C%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%2F</url>
+    <content type="text"><![CDATA[IP 环境 更新日期 ..11.101 JDK8-done/Docker 2021.8.31 01:46:33]]></content>
+      <tags>
+        <tag>vmware</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Java8时间类使用]]></title>
+    <url>%2F2021%2F08%2F24%2FJava8%E6%97%B6%E9%97%B4%E7%B1%BB%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[protobuf入门安装使用-Windows版本]]></title>
+    <url>%2F2021%2F08%2F24%2Fprotobuf%E5%85%A5%E9%97%A8%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-Windows%E7%89%88%E6%9C%AC%2F</url>
+    <content type="text"><![CDATA[一、Windows环境安装 下载对应安装包 解压文件到文件夹 配置环境变量 验证环境 cmd或者gitbash下 $ protoc --version libprotoc 3.17.3 至此protobuff环境安装完成。]]></content>
+      <tags>
+        <tag>protbuf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[C++学习--Clion开发环境设置]]></title>
+    <url>%2F2021%2F07%2F08%2FC%2B%2B%E5%AD%A6%E4%B9%A0-Clion%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[一、Windows gcc环境配置首先下载MinGW，官方下载地址，百度网盘的下载地址，提取码为4dmt ，下载完成后解压到某个路径后，配置对应环境变量映射到解压目录的bin目录。 验证：win+R 输入cmd，命令行输入 gcc+ -v，提示环境信息即成功 二、配置编译器默认已安装JetBrains 旗下Clion编辑器，新建C++项目后，Next后提示配置环境变量，选择MingGW安装目录会自动联想补充，Finish完成。 Clion会自动生成main.cpp文件 /* #include &lt;iostream&gt; int main() &#123; std::cout &lt;&lt; &quot;Hello, World!&quot; &lt;&lt; std::endl; return 0; &#125; */ //提前声明命名空间写法 #include &lt;iostream&gt; using namespace std; int main()&#123; cout &lt;&lt; &quot;Hello World!&quot;;//print hello world return 0; &#125; 解释下上面代码： C++ 语言定义了一些头文件，这些头文件包含了程序中必需的或有用的信息。上面这段程序中，包含了头文件 ****。 下一行 using namespace std; 告诉编译器使用 std 命名空间。命名空间是 C++ 中一个相对新的概念。 下一行 // main() 是程序开始执行的地方 是一个单行注释。单行注释以 // 开头，在行末结束。 下一行 int main() 是主函数，程序从这里开始执行。 下一行 cout &lt;&lt; “Hello World”; 会在屏幕上显示消息 “Hello World”。 下一行 return 0; 终止 main( )函数，并向调用进程返回值 0。]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[RocketMQ集群环境搭建]]></title>
+    <url>%2F2021%2F06%2F08%2FRocketMQ%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[neo4j图数据库入门]]></title>
     <url>%2F2021%2F06%2F07%2Fneo4j%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%A5%E9%97%A8%2F</url>
     <content type="text"><![CDATA[Neo4j简介：-安装-启动-入门教程-节点-增-删-改-查-属性-增-删-改-查关系-增-删-改-查]]></content>
@@ -308,7 +342,7 @@
   <entry>
     <title><![CDATA[ElasticSearch安装]]></title>
     <url>%2F2019%2F08%2F01%2FElasticSearch%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[Elasticsearch安装安装准备： 环境 版本 说明 link windows 7 elasticsrarch 7.3.0 https://www.elastic.co/cn/downloads/elasticsearch elasticsearch-head git仓库master，可视化界面 ssh:&#103;&#x69;&#x74;&#x40;&#x67;&#x69;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;:mobz/elasticsearch-head.githttps:https://github.com/mobz/elasticsearch-head.gitChrome插件 nodejs v10.16.0 es-head运行环境 http://nodejs.cn/download JDK 1.8 es运行环境 1.elasticsearch解压 bin目录下elasticsearch.bat可执行文件启动es服务 2.elasticsearch-head目录下打开cmd窗口 ​ 执行以下命令 npm install -g grunt-cli npm install grunt server Started connect web server on http://localhost:9100 --可视化服务启动 3.localhost:9100访问可视化界面 http://localhost:9200/服务连接不上，修改ES安装目录下 /config/elasticsearch.yml 添加： http.cors.enabled: true http.cors.allow-origin: &quot;*&quot; 重启es服务，访问可视化界面，成功连接链接http://localhost:9200/]]></content>
+    <content type="text"><![CDATA[Elasticsearch安装安装准备： 环境 版本 说明 link windows 7 elasticsrarch 7.3.0 https://www.elastic.co/cn/downloads/elasticsearch elasticsearch-head git仓库master，可视化界面 ssh:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#111;&#109;:mobz/elasticsearch-head.githttps:https://github.com/mobz/elasticsearch-head.gitChrome插件 nodejs v10.16.0 es-head运行环境 http://nodejs.cn/download JDK 1.8 es运行环境 1.elasticsearch解压 bin目录下elasticsearch.bat可执行文件启动es服务 2.elasticsearch-head目录下打开cmd窗口 ​ 执行以下命令 npm install -g grunt-cli npm install grunt server Started connect web server on http://localhost:9100 --可视化服务启动 3.localhost:9100访问可视化界面 http://localhost:9200/服务连接不上，修改ES安装目录下 /config/elasticsearch.yml 添加： http.cors.enabled: true http.cors.allow-origin: &quot;*&quot; 重启es服务，访问可视化界面，成功连接链接http://localhost:9200/]]></content>
       <categories>
         <category>-elasticsearch</category>
       </categories>
